@@ -6,8 +6,8 @@ bookdown::gitbook:
     toc:
       before: |
         <li><a href="./">Tutoriel de Bioinformatique</a></li>
- #     after: |
-#        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+      after: |
+        <li><a href="https://kmezhoud.netlify.app/" target="blank">Karim Mezhoud</a></li>
     edit: https://github.com/kmezhoud/Bioinformatics/edit/main/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
