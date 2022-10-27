@@ -3,11 +3,11 @@
 Orale presentation
 Include slides
 
-# Cas d'étude: Identification Graohique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites
+## Cas d'étude: Identification Graohique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites
 
 This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The “Tools & Data” section lists all the tools and data required. The “Data computing” section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
 
-## Tools & Data
+### Tools & Data
 
 For this tutorial you will need:
 
