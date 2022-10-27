@@ -1,7 +1,9 @@
 introduction-à-la-bioinformatique
 les-bases-de-données
 cross
-la-principes-de-prédiction-des-structures-3d-des-protéines
+les-principes-de-prédiction-des-structures-3d-des-protéines
 le-docking
 lanalyse-des-interactions-de-protéines
+cas-détude-identification-graohique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites
+tools-data
 autres
