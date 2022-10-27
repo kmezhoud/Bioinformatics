@@ -123,6 +123,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -145,11 +167,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>3</b> Principes de l’Alignement de Séquences</a></li>
 <li class="chapter" data-level="4" data-path="les-principes-de-prédiction-des-structures-3d-des-protéines.html"><a href="les-principes-de-prédiction-des-structures-3d-des-protéines.html"><i class="fa fa-check"></i><b>4</b> Les Principes de Prédiction des Structures 3D des protéines</a></li>
 <li class="chapter" data-level="5" data-path="le-docking.html"><a href="le-docking.html"><i class="fa fa-check"></i><b>5</b> Le Docking</a></li>
-<li class="chapter" data-level="6" data-path="lanalyse-des-interactions-de-protéines.html"><a href="lanalyse-des-interactions-de-protéines.html"><i class="fa fa-check"></i><b>6</b> L’Analyse des Interactions de protéines</a>
+<li class="chapter" data-level="6" data-path="analyse-des-interactions-de-protéines.html"><a href="analyse-des-interactions-de-protéines.html"><i class="fa fa-check"></i><b>6</b> Analyse des Interactions de protéines</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="lanalyse-des-interactions-de-protéines.html"><a href="lanalyse-des-interactions-de-protéines.html#cas-détude-identification-graohique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites"><i class="fa fa-check"></i><b>6.1</b> Cas d’étude: Identification Graohique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites</a>
+<li class="chapter" data-level="6.1" data-path="analyse-des-interactions-de-protéines.html"><a href="analyse-des-interactions-de-protéines.html#cas-détude-identification-graphique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites"><i class="fa fa-check"></i><b>6.1</b> Cas d’étude: Identification Graphique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="lanalyse-des-interactions-de-protéines.html"><a href="lanalyse-des-interactions-de-protéines.html#tools-data"><i class="fa fa-check"></i><b>6.1.1</b> Tools &amp; Data</a></li>
+<li class="chapter" data-level="6.1.1" data-path="analyse-des-interactions-de-protéines.html"><a href="analyse-des-interactions-de-protéines.html#tools-data"><i class="fa fa-check"></i><b>6.1.1</b> Tools &amp; Data</a></li>
+<li class="chapter" data-level="6.1.2" data-path="analyse-des-interactions-de-protéines.html"><a href="analyse-des-interactions-de-protéines.html#data-computing"><i class="fa fa-check"></i><b>6.1.2</b> Data Computing</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="autres.html"><a href="autres.html"><i class="fa fa-check"></i><b>7</b> Autres</a></li>
@@ -214,11 +237,7 @@ gitbook.start({
 "whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
-"fontsettings": {
-"theme": "sepia",
-"family": "sans",
-"size": 2
-},
+"fontsettings": null,
 "edit": {
 "link": "https://github.com/kmezhoud/Bioinformatics/edit/main/01-databases.Rmd",
 "text": "Edit"

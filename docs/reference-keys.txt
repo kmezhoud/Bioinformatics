@@ -3,7 +3,10 @@ les-bases-de-données
 cross
 les-principes-de-prédiction-des-structures-3d-des-protéines
 le-docking
-lanalyse-des-interactions-de-protéines
-cas-détude-identification-graohique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites
+analyse-des-interactions-de-protéines
+cas-détude-identification-graphique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites
 tools-data
+data-computing
+gene-list
+multiple-correlation-analysis-of-protein-expression
 autres

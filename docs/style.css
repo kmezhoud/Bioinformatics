@@ -12,3 +12,11 @@ pre {
 pre code {
   white-space: inherit;
 }
+
+body {
+  text-align: justify;
+}
+
+a link {
+  color: red;
+}
