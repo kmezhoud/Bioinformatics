@@ -170,13 +170,17 @@ div.csl-indent {
 <li class="chapter" data-level="6" data-path="interactomics.html"><a href="interactomics.html"><i class="fa fa-check"></i><b>6</b> Interactomics</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="interactomics.html"><a href="interactomics.html#oral-presentation"><i class="fa fa-check"></i><b>6.1</b> Oral presentation</a></li>
-<li class="chapter" data-level="6.2" data-path="interactomics.html"><a href="interactomics.html#case-study-graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets"><i class="fa fa-check"></i><b>6.2</b> Case Study: Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets</a>
+<li class="chapter" data-level="6.2" data-path="interactomics.html"><a href="interactomics.html#graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets"><i class="fa fa-check"></i><b>6.2</b> Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="interactomics.html"><a href="interactomics.html#tools-data"><i class="fa fa-check"></i><b>6.2.1</b> Tools &amp; Data</a></li>
 <li class="chapter" data-level="6.2.2" data-path="interactomics.html"><a href="interactomics.html#data-computing"><i class="fa fa-check"></i><b>6.2.2</b> Data Computing</a></li>
 <li class="chapter" data-level="6.2.3" data-path="interactomics.html"><a href="interactomics.html#cytoscape-steps"><i class="fa fa-check"></i><b>6.2.3</b> Cytoscape Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="interactomics.html"><a href="interactomics.html#rstudio"><i class="fa fa-check"></i><b>6.3</b> Rstudio</a></li>
+<li class="chapter" data-level="6.3" data-path="interactomics.html"><a href="interactomics.html#terminal-analysis-of-network"><i class="fa fa-check"></i><b>6.3</b> Terminal Analysis of network</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="interactomics.html"><a href="interactomics.html#rstudio-and-packages"><i class="fa fa-check"></i><b>6.3.1</b> Rstudio and Packages</a></li>
+<li class="chapter" data-level="6.3.2" data-path="interactomics.html"><a href="interactomics.html#shiny-framework"><i class="fa fa-check"></i><b>6.3.2</b> Shiny Framework</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="others.html"><a href="others.html"><i class="fa fa-check"></i><b>7</b> Others</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -206,8 +210,8 @@ div.csl-indent {
 <h2><span class="header-section-number">6.1</span> Oral presentation<a href="interactomics.html#oral-presentation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Include slides</p>
 </div>
-<div id="case-study-graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> Case Study: Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets<a href="interactomics.html#case-study-graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets<a href="interactomics.html#graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The <a href="interactomics.html#tools-data">Tools &amp; Data</a> section lists all the tools and data required. The “Data computing” section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.</p>
 <div id="tools-data" class="section level3 hasAnchor" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Tools &amp; Data<a href="interactomics.html#tools-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -215,7 +219,7 @@ div.csl-indent {
 <ol style="list-style-type: decimal">
 <li>Bioinformatic tools</li>
 </ol>
-<p>Cytoscape <span class="citation">(<a href="#ref-Shannon2003" role="doc-biblioref">Shannon et al. 2003</a>; <a href="#ref-Cline2007" role="doc-biblioref">Cline et al. 2007</a>)</span> software implemented by Reactome FIs <span class="citation">(<a href="#ref-Wu2010" role="doc-biblioref">Wu, Feng, and Stein 2010</a>)</span>, Advanced Network merge, NetworkAnalyzer, and ClueGO <span class="citation">(<a href="#ref-Bindea2009" role="doc-biblioref">Bindea et al. 2009</a>)</span> Apps.</p>
+<p>Cytoscape <span class="citation">(<a href="#ref-Shannon2003" role="doc-biblioref">Shannon et al. 2003</a>; <a href="#ref-Cline2007" role="doc-biblioref">Cline et al. 2007</a>)</span> software implemented by Reactome FIs <span class="citation">(<a href="#ref-Wu2010" role="doc-biblioref">Wu, Feng, and Stein 2010</a>)</span>, Advanced Network merge, NetworkAnalyzer, and ClueGO <span class="citation">(<a href="#ref-Bindea2009" role="doc-biblioref">Bindea et al. 2009</a>)</span>, <a href="https://apps.cytoscape.org/apps/yfileslayoutalgorithms">yFiles Layout Algorithms</a> Apps.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Experimental Data</li>
 </ol>
@@ -621,11 +625,76 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 </div>
 <div id="walk-through-example" class="section level4 hasAnchor" number="6.2.3.2">
 <h4><span class="header-section-number">6.2.3.2</span> Walk through example<a href="interactomics.html#walk-through-example" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Open a new Cytoscape session and save it as networks.cys</p>
+<div id="network-construction-1" class="section level5 hasAnchor" number="6.2.3.2.1">
+<h5><span class="header-section-number">6.2.3.2.1</span> Network Construction<a href="interactomics.html#network-construction-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Load the gene list <a href="https://raw.githubusercontent.com/kmezhoud/Bioinformatics/main/data/cytoscape_input/only_modulated_symbol.txt">only-modulated_symbol.txt</a> through the <em>Reactome FI</em> App, and use <em>linker genes</em>. Click OK.</p>
+<div class="figure">
+<img src="img/import_only_modulated_genes.png" alt="" />
+<p class="caption">Cytoscape FI setting</p>
+</div>
+<p><em>Reactome FI</em> search for our gene list (black label) and add linker genes (red label).</p>
+<div class="figure">
+<img src="img/only_modulated_network_with_linker_genes.png" alt="" />
+<p class="caption">Network constructed by Cytoscape FI with the only-modulated-symbol.txt file</p>
+</div>
+<p>Import correlation network from <em>Correlation_Network.sif</em> file.</p>
+<p><img src="img/import_correlation_network.png" alt="Load the correlation network from the Correlation_Network.sif file" />
+Remove duplicated edges.</p>
+<p><img src="img/remove_duplicated_Edges.png" />
+Rename Node Label</p>
+<p><img src="img/rename_node_labels.png" /></p>
+<p>Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union</p>
+<div class="figure">
+<img src="img/merge_network1_networ2_setting.png" alt="" />
+<p class="caption">Merging only-modulated-symbol.txt and Correlation_Network.sif</p>
+</div>
+<div class="figure">
+<img src="img/merged_network1_network2.png" alt="" />
+<p class="caption">The Layout setting (organic Layout)</p>
+</div>
+</div>
+<div id="attribute-reactome-function-interaction-1" class="section level5 hasAnchor" number="6.2.3.2.2">
+<h5><span class="header-section-number">6.2.3.2.2</span> Attribute Reactome Function Interaction<a href="interactomics.html#attribute-reactome-function-interaction-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The main features of the <em>Reactome FI</em> App should be selected from a popup menu, which can be displayed by right clicking on an empty space in the network view panel.</p>
+<p><img src="img/Fetch_FI_annotations.png" />
+Edges will be displayed on the basis of the FI direction attribute values.</p>
+<p>In the following screen shot, the edge table summarize the shapes of edges:
+* “-&gt;” for activating/catalyzing,
+* “-|” for inhibition,
+* “-” for FIs extracted from complexes or inputs,
+* “—” for predicted FIs,
+* Node Label: canonical name or ID,
+* Node Shape: IsLinker.
+* for more detail, See in the <em>style</em> tab: Node Shape, Edge Source, Arrow Shape and Edge Target Arrow Shape values.</p>
+</div>
+<div id="analyse-network-functions-reactome-fi" class="section level5 hasAnchor" number="6.2.3.2.3">
+<h5><span class="header-section-number">6.2.3.2.3</span> Analyse Network Functions (Reactome FI)<a href="interactomics.html#analyse-network-functions-reactome-fi" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><img src="img/Analyse_Network_Functions.png" /></p>
+<p><img src="img/GO_Biological_Process_analysis.png" />
+A new table appears fir Biological Process. You can choose to filter the enrichment results by an FDR cutoff value.</p>
+</div>
+<div id="cluster-function-interactions-network-reactome-fi" class="section level5 hasAnchor" number="6.2.3.2.4">
+<h5><span class="header-section-number">6.2.3.2.4</span> Cluster Function Interactions network (Reactome FI)<a href="interactomics.html#cluster-function-interactions-network-reactome-fi" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><img src="img/network_module.png" /></p>
+</div>
+<div id="analyse-of-the-module-functions-pathway-enrichment" class="section level5 hasAnchor" number="6.2.3.2.5">
+<h5><span class="header-section-number">6.2.3.2.5</span> Analyse of the module functions : Pathway enrichment<a href="interactomics.html#analyse-of-the-module-functions-pathway-enrichment" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div class="figure">
+<img src="img/Pathway_enrichment.png" alt="" />
+<p class="caption">Pathway term enrichment analysis.</p>
 </div>
 </div>
 </div>
-<div id="rstudio" class="section level2 hasAnchor" number="6.3">
-<h2><span class="header-section-number">6.3</span> Rstudio<a href="interactomics.html#rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+</div>
+<div id="terminal-analysis-of-network" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Terminal Analysis of network<a href="interactomics.html#terminal-analysis-of-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="rstudio-and-packages" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Rstudio and Packages<a href="interactomics.html#rstudio-and-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="shiny-framework" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Shiny Framework<a href="interactomics.html#shiny-framework" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb35"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb35-1"><a href="interactomics.html#cb35-1"></a><span class="fu">library</span>(visNetwork)</span>
 <span id="cb35-2"><a href="interactomics.html#cb35-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
 <span id="cb35-3"><a href="interactomics.html#cb35-3"></a>                    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Node&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
@@ -645,8 +714,8 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 <span id="cb35-17"><a href="interactomics.html#cb35-17"></a>visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">graph=</span> graphe, <span class="at">manipulation =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb35-18"><a href="interactomics.html#cb35-18"></a>                       <span class="at">selectedBy =</span> <span class="st">&quot;group&quot;</span>,</span>
 <span id="cb35-19"><a href="interactomics.html#cb35-19"></a>                       <span class="at">highlightNearest =</span> <span class="cn">TRUE</span> )</span></code></pre></div>
-<div id="htmlwidget-a4634d228e9ff9ce5dd5" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a4634d228e9ff9ce5dd5">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a70166b69e29b9ebd87f" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a70166b69e29b9ebd87f">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
 <!-- # Blocks -->
 <!-- ## Equations -->
 <!-- Here is an equation. -->
@@ -666,6 +735,7 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 <!-- ## Callout blocks -->
 <!-- The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html -->
 
+</div>
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>

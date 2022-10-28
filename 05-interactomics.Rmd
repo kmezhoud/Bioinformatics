@@ -5,7 +5,7 @@
 Include slides
 
 
-## Case Study:  Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets
+## Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets
 
 This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The [Tools & Data](#tools-data) section lists all the tools and data required. The "Data computing" section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
 
@@ -15,7 +15,7 @@ For this tutorial you will need:
 
 1.  Bioinformatic tools
 
-Cytoscape [@Shannon2003; @Cline2007] software implemented by Reactome FIs [@Wu2010], Advanced Network merge, NetworkAnalyzer, and ClueGO [@Bindea2009] Apps.
+Cytoscape [@Shannon2003; @Cline2007] software implemented by Reactome FIs [@Wu2010], Advanced Network merge, NetworkAnalyzer, and ClueGO [@Bindea2009], [yFiles Layout Algorithms](https://apps.cytoscape.org/apps/yfileslayoutalgorithms)  Apps.
 
 2.  Experimental Data
 
@@ -405,19 +405,74 @@ tail(correlation_cancer.EA)
 
 #### Walk through example
 
+Open a new Cytoscape session and save it as networks.cys
 
 
+##### Network Construction
+
+Load the gene list [only-modulated_symbol.txt](https://raw.githubusercontent.com/kmezhoud/Bioinformatics/main/data/cytoscape_input/only_modulated_symbol.txt) through the *Reactome FI* App, and use *linker genes*. Click OK.
+
+![Cytoscape FI setting](img/import_only_modulated_genes.png)
+
+*Reactome FI* search for our gene list (black label) and add linker genes (red label).
+
+![Network constructed by Cytoscape FI with the only-modulated-symbol.txt file](img/only_modulated_network_with_linker_genes.png)
+
+Import correlation network from *Correlation_Network.sif* file.
+
+![Load the correlation network from the Correlation_Network.sif file](img/import_correlation_network.png)
+Remove duplicated edges.
+
+![](img/remove_duplicated_Edges.png)
+Rename Node Label
+
+![](img/rename_node_labels.png)
+
+Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union
+
+![Merging only-modulated-symbol.txt and Correlation_Network.sif](img/merge_network1_networ2_setting.png)
+
+![The Layout setting (organic Layout)](img/merged_network1_network2.png)
 
 
+##### Attribute Reactome Function Interaction
+
+The main features of the *Reactome FI* App should be selected from a popup menu, which can be displayed by right clicking on an empty space in the network view panel.
 
 
+![](img/Fetch_FI_annotations.png)
+Edges will be displayed on the basis of the FI direction attribute values. 
+
+In the following screen shot, the edge table summarize the shapes of edges:
+* "->" for activating/catalyzing, 
+* "-|" for inhibition, 
+* "-" for FIs extracted from complexes or inputs,
+* "---" for predicted FIs, 
+* Node Label: canonical name or ID, 
+* Node Shape: IsLinker.
+* for more detail,  See in the *style* tab:  Node Shape, Edge Source, Arrow Shape and Edge Target Arrow Shape values.
+
+##### Analyse Network Functions (Reactome FI)
+
+![](img/Analyse_Network_Functions.png)
+
+![](img/GO_Biological_Process_analysis.png)
+A new table appears fir Biological Process. You can choose to filter the enrichment results by an FDR cutoff value.
+
+##### Cluster Function Interactions network (Reactome FI)
 
 
+![](img/network_module.png)
 
+##### Analyse of the module functions : Pathway enrichment
 
+![Pathway term enrichment analysis.](img/Pathway_enrichment.png)
 
+## Terminal Analysis of network
 
-## Rstudio
+### Rstudio and Packages
+
+### Shiny Framework
 
 ```{r, attr.source='.numberLines'}
 library(visNetwork)

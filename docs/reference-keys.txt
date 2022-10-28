@@ -5,7 +5,7 @@ d-protein-structure-prediction
 docking
 interactomics
 oral-presentation
-case-study-graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets
+graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets
 tools-data
 data-computing
 gene-list
@@ -22,5 +22,12 @@ vizmapper-setting
 cancer-protein-network-construction
 biological-process-enrichment-cluego-setting
 walk-through-example
-rstudio
+network-construction-1
+attribute-reactome-function-interaction-1
+analyse-network-functions-reactome-fi
+cluster-function-interactions-network-reactome-fi
+analyse-of-the-module-functions-pathway-enrichment
+terminal-analysis-of-network
+rstudio-and-packages
+shiny-framework
 others
