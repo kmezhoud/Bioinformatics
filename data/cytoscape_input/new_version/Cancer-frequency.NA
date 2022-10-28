@@ -1,0 +1,74 @@
+"Cancer.Type" "Freq_mean"
+"1" "Lung Cancer" 0.585
+"2" "Ovarian Cancer" 0.495
+"3" "Invasive Breast Carcinoma" 0.49
+"4" "Uterine Endometrioid Carcinoma" 0.44
+"5" "Skin Cancer, Non-Melanoma" 0.43
+"6" "Bladder/Urinary Tract Cancer, NOS" 0.425
+"7" "Ovarian Epithelial Tumor" 0.405
+"8" "Melanoma" 0.365
+"9" "Endometrial Cancer" 0.35
+"10" "Esophagogastric Cancer" 0.32
+"11" "Breast Cancer" 0.285
+"12" "Bladder Cancer" 0.265
+"13" "Cervical Cancer" 0.265
+"14" "Head and Neck Cancer" 0.265
+"15" "Colorectal Cancer" 0.255
+"16" "Non-Small Cell Lung Cancer" 0.255
+"17" "Sarcoma" 0.23
+"18" "Prostate Cancer" 0.225
+"19" "Meningioma" 0.22
+"20" "Hepatobiliary Cancer" 0.18
+"21" "Mature B-cell lymphoma" 0.175
+"22" "Lung Adenocarcinoma" 0.17
+"23" "Lung cancer" 0.17
+"24" "Adrenocortical Carcinoma" 0.17
+"25" "Salivary Gland Cancer" 0.155
+"26" "Cholangiocarcinoma" 0.15
+"27" "B-Lymphoblastic Leukemia/Lymphoma" 0.14
+"28" "Colorectal Adenocarcinoma" 0.14
+"29" "Bone Cancer" 0.135
+"30" "Pancreatic Cancer" 0.135
+"31" "T-Lymphoblastic Leukemia/Lymphoma" 0.135
+"32" "Glioblastoma" 0.115
+"33" "Renal Cell Carcinoma" 0.105
+"34" "Medulloblastoma" 0.1
+"35" "Pleural Mesothelioma" 0.1
+"36" "Prostate" 0.1
+"37" "Embryonal Tumor" 0.095
+"38" "Endometrial Carcinoma" 0.095
+"39" "Ampullary Cancer" 0.09
+"40" "Non-Seminomatous Germ Cell Tumor" 0.09
+"41" "Pheochromocytoma" 0.09
+"42" "Uterine Sarcoma" 0.09
+"43" "Breast Sarcoma" 0.08
+"44" "Glioma" 0.08
+"45" "Prostate Adenocarcinoma" 0.08
+"46" "Renal Non-Clear Cell Carcinoma" 0.08
+"47" "Seminoma" 0.08
+"48" "Soft Tissue Sarcoma" 0.075
+"49" "Hepatocellular Carcinoma" 0.07
+"50" "Small Cell Lung Cancer" 0.07
+"51" "Wilms Tumor" 0.07
+"52" "Acute myeloid leukemia" 0.06
+"53" "Mature B-Cell Neoplasms" 0.06
+"54" "Renal Clear Cell Carcinoma" 0.06
+"55" "Sellar Tumor" 0.06
+"56" "Leukemia" 0.055
+"57" "Peripheral Nervous System" 0.055
+"58" "High-grade glioma/astrocytoma" 0.05
+"59" "Miscellaneous Neuroepithelial Tumor" 0.05
+"60" "Ocular Melanoma" 0.05
+"61" "Thymic Epithelial Tumor" 0.05
+"62" "CNS Cancer" 0.04
+"63" "Essential Thrombocythemia" 0.04
+"64" "Mature T and NK Neoplasms" 0.04
+"65" "Mesothelioma" 0.03
+"66" "Myelodysplastic/Myeloproliferative Neoplasms" 0.03
+"67" "Thyroid Cancer" 0.03
+"68" "Low-grade glioma/astrocytoma" 0.025
+"69" "Cancer of Unknown Primary" 0.02
+"70" "Salivary Cancer" 0.02
+"71" "Head and Neck Carcinoma" 0.01
+"72" "Prostate Cancer, NOS" 0.01
+"73" "Thymic Tumor" 0.01

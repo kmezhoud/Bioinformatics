@@ -203,4 +203,30 @@
   revised         = {2022-04-10},
 }
 
+@Article{Zhu2007,
+  author          = {Zhu, Dongxiao and Li, Youjuan and Li, Hua},
+  journal         = {Bioinformatics (Oxford, England)},
+  title           = {Multivariate correlation estimator for inferring functional relationships from replicated genome-wide data.},
+  year            = {2007},
+  issn            = {1367-4811},
+  month           = sep,
+  pages           = {2298--2305},
+  volume          = {23},
+  abstract        = {Estimating pairwise correlation from replicated genome-scale (a.k.a. OMICS) data is fundamental to cluster functionally relevant biomolecules to a cellular pathway. The popular Pearson correlation coefficient estimates bivariate correlation by averaging over replicates. It is not completely satisfactory since it introduces strong bias while reducing variance. We propose a new multivariate correlation estimator that models all replicates as independent and identically distributed (i.i.d.) samples from the multivariate normal distribution. We derive the estimator by maximizing the likelihood function. For small sample data, we provide a resampling-based statistical inference procedure, and for moderate to large sample data, we provide an asymptotic statistical inference procedure based on the Likelihood Ratio Test (LRT). We demonstrate advantages of the new multivariate correlation estimator over Pearson bivariate correlation estimator using simulations and real-world data analysis examples. The estimator and statistical inference procedures have been implemented in an R package 'CORREP' that is available from CRAN [http://cran.r-project.org] and Bioconductor [http://www.bioconductor.org/]. Supplementary data are available at Bioinformatics online.},
+  citation-subset = {IM},
+  completed       = {2007-10-18},
+  country         = {England},
+  doi             = {10.1093/bioinformatics/btm328},
+  issn-linking    = {1367-4803},
+  issue           = {17},
+  keywords        = {Algorithms; Computational Biology, methods; Computer Simulation; Data Interpretation, Statistical; Genomics, methods; Models, Genetic; Models, Statistical; Multivariate Analysis; Statistics as Topic},
+  nlm-id          = {9808944},
+  owner           = {NLM},
+  pii             = {btm328},
+  pmid            = {17586543},
+  pubmodel        = {Print-Electronic},
+  pubstate        = {ppublish},
+  revised         = {2022-03-09},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

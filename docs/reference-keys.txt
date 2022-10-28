@@ -10,4 +10,6 @@ data-computing
 gene-list
 multiple-correlation-analysis-of-protein-expression
 query-cbio-portal
+cancer-type-frequencies
+gene-alteration-frequency-by-cancer-type
 autres

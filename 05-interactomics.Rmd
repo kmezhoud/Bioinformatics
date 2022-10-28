@@ -43,7 +43,7 @@ To find out more about the file format, download the corresponding supplemental 
 -   Edge attributes
 
     -   The correlation rate of Protein expression (Correlation+Cancer.EA)
-    -   The gene expression profile overlap between our experiments and clinical data from the [cBio Cancer Genomics Portal]((http://www.cbioportal.org/)) [@Cerami2012] (Correlation+Cancer.EA)
+    -   The gene expression profile overlap between our experiments and clinical data from the [cBio Cancer Genomics Portal]((http://www.cbioportal.org/)) [@Cerami2012, @Gao2013] (Correlation+Cancer.EA)
 
 ### Data Computing
 
@@ -63,18 +63,27 @@ We specified that the proteins (or genes) are the variables, and the people corr
 
 Following R codes makes it possible to compute and extract correlated gene expression levels upper that threshold.
 
-```{r, eval=FALSE}
+```{r eval=FALSE}
 # Install CORREP package from Bioconductor
 
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("CORREP")
+
+
 ```
+
+Load needed package
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+```
+
 
 ```{r}
 # read expression data
-proteinEXP <- read.table(file = "data/cytoscape/proteinEXP.txt", header = TRUE, row.names = 1)
+proteinEXP <- read.table(file = "data/cytoscape_input/proteinEXP.txt", header = TRUE, row.names = 1)
 
 head(proteinEXP)
 ```
@@ -124,15 +133,143 @@ In our case, we need to concatenate the three columns and add `+%28pp%29+` betwe
 
 ```{r}
 # paste columns
-correlated_genes <- paste0(cor.proteinEXP.std.filter$gene1, "+%28pp%29+", 
+correlated_genes.EA <- paste0(cor.proteinEXP.std.filter$gene1, "+%28pp%29+", 
                     cor.proteinEXP.std.filter$gene2, "=",
                     cor.proteinEXP.std.filter$value)
 
-length(correlated_genes)
-head(correlated_genes)
+length(correlated_genes.EA)
+head(correlated_genes.EA)
 ```
 
+The `correlated_genes.EA` object is the Egdes Attribution of correlated genes. It  will be saved and used as input file for cytoscape. 
+
+But before to save it, we need to add Edges attribution of interaction between genes and cancers.
+
+We will use [cBio Portal](https://www.cbioportal.org/) web service to predict the frequency of altered genes (only_modulated_symbol.txt file) in existing cancers studies.
+
+
 #### Query [cBio Portal](https://www.cbioportal.org/) 
+
+##### Cancer Type Frequencies
+
+We have 27 genes and the cBioPortal accepts queries with limited genes number **14**. We subset the genes list to 2 groups and merge the outputs together.
+
+The gene list was submitted  with the **curated set of non redundant studies** option. This first request told us how much the genes were modulated in selected cancer types. All cancers type were then ranked in decreasing order of the overlap of their gene expression profiles. The table will saved as *Cancer-frequency.NA*.
+
+![](img/query_genes_list.png)
+After quering, go to the **Cancer Type Summary** Tab and visualize the results.  Download the data and save it as *cancer_type_summary_1.txt*. Repeat the same process for the remains 13 genes and save it as *cancer_type_summary_2.txt*.
+
+
+![](img/cBio_Cancer_Type_Sum_1.png)
+
+
+```{r}
+cancer_type_summary_1 <- read.table(file = "data/cBioPortal_output/cancer_types_summary_1.txt", header = TRUE, sep = "\t")
+cancer_type_summary_2 <- read.table(file = "data/cBioPortal_output/cancer_types_summary_2.txt", header = TRUE, sep = "\t")
+head(cancer_type_summary_1)
+```
+
+**Alteration.Frequency** variable is computed for each query of all input genes list. In our case we have to compute the `mean/median` of **Alteraction.Frequency** of the two queries.
+
+
+ 
+```{r}
+
+cancer_type_summary_1_freq <- cancer_type_summary_1 |>
+                              group_by(Cancer.Type) |>
+                              mutate(Count = sum(Alteration.Count),
+                                     Freq = sum(Alteration.Frequency)) |>
+                              #select(Cancer.Type, Alteration.Frequency, Freq) |>
+                              distinct(Cancer.Type, Freq, .keep_all = FALSE) |>
+                              arrange(desc(Freq)) |>
+                              mutate(Freq = round(Freq/100, digits = 2))
+
+ cancer_type_summary_2_freq <- cancer_type_summary_2 |>
+                              group_by(Cancer.Type) |>
+                              mutate(Count = sum(Alteration.Count),
+                                     Freq = sum(Alteration.Frequency)) |>
+                              #select(Cancer.Type, Alteration.Frequency, Freq) |>
+                              distinct(Cancer.Type, Freq, .keep_all = FALSE) |>
+                              arrange(desc(Freq)) |>
+                              mutate(Freq = round(Freq/100, digits = 2)) 
+
+
+head(cancer_type_summary_1_freq)
+```
+
+
+```{r}
+# bind the two summaries and compute the mean
+cancer_type_summary_freq <- cancer_type_summary_1_freq |>
+                        bind_rows(cancer_type_summary_2_freq) |>
+                        group_by(Cancer.Type) |>
+                        mutate(Freq_mean= mean(Freq)) |>
+                        arrange(Cancer.Type) |>
+                        distinct(Cancer.Type, Freq_mean) |>
+                        arrange(desc(Freq_mean))
+
+write.table(cancer_type_summary_freq, file = "data/cytoscape_input/new_version/Cancer-frequency.NA")
+head(cancer_type_summary_freq)
+
+```
+
+##### Gene Alteration Frequency by Cancer Type
+
+In the second step, the search was refined by specifying the cancers (one by one), which involved a wider range of gene lists.
+
+We will focus on the first 5 cancer type listed by *cancer_type_summary_freq* object.
+
+We used only the “mRNA Expression Z-Scores vs Normals” option. We specified the direction of the modulation using Advanced: Onco Query Language (OQL). 
+
+For example, with PZP: EXP > 1, the search selects only cancer cases that display up-regulation of PZP. Based on the *Fold_Change.NA* file, we used OQL as explained in supplemental *only-modulatedEXP.txt*.
+
+We started by Lung Cancer which has the higher  frequency. 
+
+We have to search manually which Lung cancer study has mRNa expression data. 
+
+There is no way to filter studies by **genomic profile**.  check boxes **one by one** and see if mRNA expression option appears.
+
+In this case we can query more gene list (27).
+
+![](img/Lung_EXP_query.png)
+
+
+
+![](img/gene_alteration_frequency_by_cancer.png)    
+Save the file as **gene_alteration_frequency_Lung.tsv**. 
+
+
+```{r}
+gene_alteration_frequency_Lung <- read.table("data/cBioPortal_output/gene_alteration_frequency_Lung.tsv",
+                                             header = TRUE, sep = "\t")
+
+head(gene_alteration_frequency_Lung)
+```
+The next step is to attribute gene alteration frequency to gene-cancer Edges. 
+
+Based on  *gene_alteration_frequency_Lung* object we need to build a list like `gene1+%28pp%29+cancer1=gene_alteration_rate` and joint it to `correlated_genes.EA`
+
+
+```{r}
+gene_cancer_freq_Lung <- paste0(gene_alteration_frequency_Lung$Gene.Symbol, 
+                          "+%28pp%29+", "Lung_C=",  
+                          as.numeric(sub("%","", 
+                                         gene_alteration_frequency_Lung$Percent.Samples.Altered))/100
+                          )
+head(gene_cancer_freq_Lung)
+```
+
+**Do the same [steps](#gene-alteration-frequency-by-cancer-type) for the 4 other Cancer Type: Ovarian Cancer, Invasive Breast, Uterine Endometrioid Carcinoma Carcinoma, Skin Cancer, Non-Melanoma ** 
+
+
+Cancatenate the *gene_cancer_freq_Lung, gene_cancer_freq_Ovarian, gene_cancer_freq_Breast, gene_cancer_freq_Lung_Uterine, gene_cancer_freq_Skin* with *correlated_genes.EA* objects of Edge Attributions.
+
+```{r}
+correlation_cancer.EA <- c(correlated_genes.EA, gene_cancer_freq_Lung)
+
+write.table(correlation_cancer.EA, file = "data/cytoscape_input/new_version/Correlation+Cancer.NA")
+tail(correlation_cancer.EA)
+```
 
 
 
