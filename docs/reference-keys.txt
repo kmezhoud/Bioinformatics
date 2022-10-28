@@ -1,10 +1,11 @@
-introduction-à-la-bioinformatique
-les-bases-de-données
+introduction
+databases
 cross
-les-principes-de-prédiction-des-structures-3d-des-protéines
-le-docking
-analyse-des-interactions-de-protéines
-cas-détude-identification-graphique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites-.short-titlecas-détude
+d-protein-structure-prediction
+docking
+interactomics
+oral-presentation
+case-study-graphical-identification-of-cancer-associated-gene-sub-networks-based-on-small-proteomics-data-sets
 tools-data
 data-computing
 gene-list
@@ -12,4 +13,5 @@ multiple-correlation-analysis-of-protein-expression
 query-cbio-portal
 cancer-type-frequency
 gene-alteration-frequency-by-cancer-type
-autres
+cytoscape-steps
+others

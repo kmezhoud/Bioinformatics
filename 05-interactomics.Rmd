@@ -1,14 +1,11 @@
-# Analyse des Interactions de protéines
+# Interactomics
 
-1.  Orale presentation
+## Oral presentation
 
-2.  Include slides
+Include slides
 
-    -   second level
 
-        -   third level
-
-## Cas d'étude: Identification Graphique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites {.short-title="Cas d'étude"}
+## Case Study:  Graphical identification of cancer-associated gene sub-networks based on small proteomics data sets
 
 This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The [Tools & Data](#tools-data) section lists all the tools and data required. The "Data computing" section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
 
@@ -336,6 +333,7 @@ tail(correlation_cancer.EA)
 ```
 
 
+### Cytoscape Steps
 
 
 
@@ -351,8 +349,7 @@ tail(correlation_cancer.EA)
 
 
 
-
-
+## Rstudio
 
 ```{r, attr.source='.numberLines'}
 library(visNetwork)

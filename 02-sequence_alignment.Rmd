@@ -1,4 +1,4 @@
-# Principes de l'Alignement de Séquences {#cross}
+# Sequence Alignment {#cross}
 
 <!-- Cross-references make it easier for your readers to find and link to elements in your book. -->
 

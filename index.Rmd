@@ -1,5 +1,5 @@
 --- 
-title: "Tutoriel de Bioinformatique"
+title: "Bioinformatic Tutorial"
 author: "Karim Mezhoud"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -13,7 +13,7 @@ link-citations: yes
 github-repo: kmezhoud/Bioinformatics
 ---
 
-# Introduction à la Bioinformatique
+# Introduction
 
 <!-- This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$. -->
 
