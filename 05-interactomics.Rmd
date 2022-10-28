@@ -335,7 +335,75 @@ tail(correlation_cancer.EA)
 
 ### Cytoscape Steps
 
+#### Steps Summary
 
+##### Network Construction
+* Construct the protein interaction network using modulated proteins (Network 1). 
+* Construct the correlation network using the CORREP matrix (Network 2).
+* Merge networks 1 and 2 (Network 3).
+* Organize the network using organic Layout.
+
+
+##### Attribute Reactome Function Interaction
+
+* Fetch Function Interaction (FI) annotations for node Analyze the network functions.
+* Cluster the Function Interaction Network
+* Analyze module functions
+* Optimize the network view using the tool panel (scaling and rotating) and manual organization
+
+
+##### Attribute Experimental data
+
+* Nodes attributes
+  + Load Fold_change.NA 
+  + Load FDR.NA
+
+* Edges Attribute 
+  + Load Correlation.EA
+
+
+##### VizMapper Setting
+
+1. Reactome FI attributes
+    + Node Color: Cancer Module (from Reactome FI visual style)
+    + Node Label: canonical name (from Reactome FI visual style)
+    + Node Shape: IsLinker (from Reactome FI visual style)
+    + Edge Line style: FI annotation (from Reactome FI visual style)
+    + Edges Source Arrow: FI Direction (from Reactome FI visual style)
+    + Edges Target Arrow: FI Direction (from Reactome FI visual style)
+  
+2. Experimental Data attributes
+    + Node border Color: Fold change (From Fold_Change.NA file)
+    + Node line width: False Discovery Rate (FDR) (from FDR.NA file)
+    + Edge line width: Multiple Correlation Analysis and Cancer cases overlapping (from Correlation+Cancer.EA file)
+    + Edge line color: Multiple Correlation Analysis (from Correlation+Cancer.EA file)
+
+##### Cancer-protein Network Construction
+
+* Import the cancer-protein network from the Cancer_Network.sif file. 
+* Merge Cancer_Network and Network 3.
+* Attribute the Cancer-frequency to node size.
+* Optimize the view using the organic Layout and Tool panel.
+
+
+##### Biological Process Enrichment : ClueGO setting
+* Launch the ClueGO cytoscape plug-in.
+* Set the type of analysis: single cluster
+* Select the organism: Homo sapiens, and the type of IDs used (symbol)
+* Load sample gene lists from file (only-modulated_symbol.txt).
+* Select the Ontologies:
+    + GO_BiologicalProcess (Evidence codes:EXP, IDA, IMP)
+    + KEGG_Pathways (not necessary)
+    + REACTOME_BioCarta (not necessary)
+* Select the statistical test: Enrichment/Depletion (Two-sided hypergeometric test)
+* Select the correlation method: Bonferroni
+* Use default advanced settings
+* Start.
+
+
+
+
+#### Walk through example
 
 
 
