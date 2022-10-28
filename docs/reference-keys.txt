@@ -4,12 +4,12 @@ cross
 les-principes-de-prédiction-des-structures-3d-des-protéines
 le-docking
 analyse-des-interactions-de-protéines
-cas-détude-identification-graphique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites
+cas-détude-identification-graphique-de-sous-réseaux-de-gènes-associés-aux-cancers-basé-sur-des-données-protéomiques-réduites-.short-titlecas-détude
 tools-data
 data-computing
 gene-list
 multiple-correlation-analysis-of-protein-expression
 query-cbio-portal
-cancer-type-frequencies
+cancer-type-frequency
 gene-alteration-frequency-by-cancer-type
 autres

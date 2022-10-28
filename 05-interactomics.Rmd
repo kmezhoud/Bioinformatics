@@ -8,7 +8,7 @@
 
         -   third level
 
-## Cas d'étude: Identification Graphique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites
+## Cas d'étude: Identification Graphique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites {.short-title="Cas d'étude"}
 
 This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The [Tools & Data](#tools-data) section lists all the tools and data required. The "Data computing" section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
 
@@ -106,8 +106,8 @@ genes <- rownames(proteinEXP)
 colnames(cor.proteinEXP.std) <- genes
 rownames(cor.proteinEXP.std) <- genes
 
-class(cor.proteinEXP.std)
-dim(cor.proteinEXP.std)
+#class(cor.proteinEXP.std)
+#dim(cor.proteinEXP.std)
 cor.proteinEXP.std[1:5, 1:5]
 ```
 
@@ -124,9 +124,22 @@ cor.proteinEXP.std.filter <- data.frame(gene1 = genes[idx[,1]],
                                         gene2= genes[idx[,2]], 
                                         value= cor.proteinEXP.std[idx])
 
-dim(cor.proteinEXP.std.filter)
+#dim(cor.proteinEXP.std.filter)
 head(cor.proteinEXP.std.filter)
 ```
+
+From *cor.proteinEXP.std.filter* object we can generate correlated gene network. Cytoscape accepts files with with *.sif* extention as following `gene1[space]PP[space]gene2`. 
+
+```{r}
+correlation_network <- paste0(cor.proteinEXP.std.filter$gene1, " PP ", cor.proteinEXP.std.filter$gene2)
+
+write.table(correlation_network, file = "data/cytoscape_input/new_version/Correlation_Network.sif",
+            row.names = FALSE, quote = FALSE, col.names="")
+
+head(correlation_network)
+```
+
+
 The format of edge attributes that will be imported by Cytoscape must has this format `gene1+%28pp%29+gene2=correlation value`.
 
 In our case, we need to concatenate the three columns and add `+%28pp%29+` between genes and `=` before value.
@@ -141,6 +154,8 @@ length(correlated_genes.EA)
 head(correlated_genes.EA)
 ```
 
+
+
 The `correlated_genes.EA` object is the Egdes Attribution of correlated genes. It  will be saved and used as input file for cytoscape. 
 
 But before to save it, we need to add Edges attribution of interaction between genes and cancers.
@@ -150,14 +165,14 @@ We will use [cBio Portal](https://www.cbioportal.org/) web service to predict th
 
 #### Query [cBio Portal](https://www.cbioportal.org/) 
 
-##### Cancer Type Frequencies
+##### Cancer Type Frequencies {#cancer-type-frequency}
 
 We have 27 genes and the cBioPortal accepts queries with limited genes number **14**. We subset the genes list to 2 groups and merge the outputs together.
 
 The gene list was submitted  with the **curated set of non redundant studies** option. This first request told us how much the genes were modulated in selected cancer types. All cancers type were then ranked in decreasing order of the overlap of their gene expression profiles. The table will saved as *Cancer-frequency.NA*.
 
 ![](img/query_genes_list.png)
-After quering, go to the **Cancer Type Summary** Tab and visualize the results.  Download the data and save it as *cancer_type_summary_1.txt*. Repeat the same process for the remains 13 genes and save it as *cancer_type_summary_2.txt*.
+After quering, go to the **Cancer Type Summary** Tab and visualize the results.  Download the data and save it as *cancer_type_summary_1.txt*. Repeat the same [process](#cancer-type-frequency) for the remains 13 genes and save it as *cancer_type_summary_2.txt*.
 
 
 ![](img/cBio_Cancer_Type_Sum_1.png)
@@ -208,12 +223,29 @@ cancer_type_summary_freq <- cancer_type_summary_1_freq |>
                         distinct(Cancer.Type, Freq_mean) |>
                         arrange(desc(Freq_mean))
 
-write.table(cancer_type_summary_freq, file = "data/cytoscape_input/new_version/Cancer-frequency.NA")
-head(cancer_type_summary_freq)
+
+
+head(cancer_type_summary_freq,n = 6)
 
 ```
 
-##### Gene Alteration Frequency by Cancer Type
+
+```{r}
+
+cancer_frequency <- paste0(cancer_type_summary_freq$Cancer.Type, 
+                           " = ", cancer_type_summary_freq$Freq_mean)
+  
+## save only the first 6 cancers
+  
+write.table(head(cancer_frequency, 10),
+            file = "data/cytoscape_input/new_version/Cancer_frequency.NA",
+            row.names = FALSE, quote = FALSE, col.names = "Cancer frequency (class=java.lang.Double)"
+            ) 
+
+head(cancer_frequency)
+```
+
+##### Gene Alteration Frequency by Cancer Type {#gene-alteration-frequency-by-cancer-type}
 
 In the second step, the search was refined by specifying the cancers (one by one), which involved a wider range of gene lists.
 
@@ -225,7 +257,7 @@ For example, with PZP: EXP > 1, the search selects only cancer cases that displa
 
 We started by Lung Cancer which has the higher  frequency. 
 
-We have to search manually which Lung cancer study has mRNa expression data. 
+We have to search manually which Lung cancer study has mRNa expression data. Select studies with biggest samples essais.
 
 There is no way to filter studies by **genomic profile**.  check boxes **one by one** and see if mRNA expression option appears.
 
@@ -259,15 +291,47 @@ gene_cancer_freq_Lung <- paste0(gene_alteration_frequency_Lung$Gene.Symbol,
 head(gene_cancer_freq_Lung)
 ```
 
-**Do the same [steps](#gene-alteration-frequency-by-cancer-type) for the 4 other Cancer Type: Ovarian Cancer, Invasive Breast, Uterine Endometrioid Carcinoma Carcinoma, Skin Cancer, Non-Melanoma ** 
+**Do the same [steps](#gene-alteration-frequency-by-cancer-type) for the 5 others Cancer Type: Ovarian Cancer, Invasive Breast, Uterine Endometrioid Carcinoma, Skin Cancer Non-Melanoma, Bladder/Urinary Tract Cancer** 
 
-
-Cancatenate the *gene_cancer_freq_Lung, gene_cancer_freq_Ovarian, gene_cancer_freq_Breast, gene_cancer_freq_Lung_Uterine, gene_cancer_freq_Skin* with *correlated_genes.EA* objects of Edge Attributions.
 
 ```{r}
-correlation_cancer.EA <- c(correlated_genes.EA, gene_cancer_freq_Lung)
+gene_alteration_frequency_Breast <- read.table("data/cBioPortal_output/gene_alteration_frequency_Breast.tsv",
+                                             header = TRUE, sep = "\t")
 
-write.table(correlation_cancer.EA, file = "data/cytoscape_input/new_version/Correlation+Cancer.NA")
+gene_alteration_frequency_Bladder <- read.table("data/cBioPortal_output/gene_alteration_frequency_Bladder.tsv",
+                                             header = TRUE, sep = "\t")
+
+
+gene_alteration_frequency_Skin <- read.table("data/cBioPortal_output/gene_alteration_frequency_Skin.tsv",
+                                             header = TRUE, sep = "\t")
+
+gene_alteration_frequency_Uterine <- read.table("data/cBioPortal_output/gene_alteration_frequency_Uterine.tsv",
+                                             header = TRUE, sep = "\t")
+
+ gene_alteration_frequency_5_cancers <- bind_rows(cbind(gene_alteration_frequency_Lung, Cancer = "Lung"),
+                                                  cbind(gene_alteration_frequency_Breast, Cancer="Breast"),
+                                                  cbind(gene_alteration_frequency_Bladder, Cancer="Bladder"),
+                                                  cbind(gene_alteration_frequency_Skin, Cancer="Skin"),
+                                                  cbind(gene_alteration_frequency_Uterine, Cancer = "Uterine")
+                                                  )
+ 
+ 
+ gene_cancer_freq_5_cancers <- paste0(gene_alteration_frequency_5_cancers$Gene.Symbol, 
+                          "+%28pp%29+", gene_alteration_frequency_5_cancers$Cancer, "=",  
+                          as.numeric(sub("%","", 
+                                         gene_alteration_frequency_Lung$Percent.Samples.Altered))/100  
+                            )
+
+tail(gene_cancer_freq_5_cancers)
+```
+
+Cancatenate the *gene_cancer_freq_5_cancers* with *correlated_genes.EA* objects of Edge Attributions.
+
+```{r}
+correlation_cancer.EA <- c(correlated_genes.EA, gene_cancer_freq_5_cancers)
+
+write.table(correlation_cancer.EA, file = "data/cytoscape_input/new_version/Correlation+Cancer.EA",
+            row.names = FALSE, quote = FALSE, col.names="Correlation+Cancer (class=java.lang.Double)")
 tail(correlation_cancer.EA)
 ```
 
