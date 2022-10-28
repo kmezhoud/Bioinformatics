@@ -23,7 +23,7 @@
 <meta name="author" content="Karim Mezhoud" />
 
 
-<meta name="date" content="2022-10-27" />
+<meta name="date" content="2022-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,7 +203,7 @@ div.csl-indent {
 <li><p>Orale presentation</p></li>
 <li><p>Include slides</p>
 <ul>
-<li>second level
+<li><p>second level</p>
 <ul>
 <li>third level</li>
 </ul></li>
@@ -224,8 +224,7 @@ div.csl-indent {
 </ol>
 <p>To find out more about the file format, download the corresponding supplemental file indicated in parentheses.</p>
 <ul>
-<li><p>The list of modulated protein saved in one column in text file (only_modulated_symbol.txt).
-Convert the protein ID on gene symbol (HGNC or HUGO symbol) using ID Mapping service, such as:</p>
+<li><p>The list of modulated protein saved in one column in text file (only_modulated_symbol.txt). Convert the protein ID on gene symbol (HGNC or HUGO symbol) using ID Mapping service, such as:</p>
 <ul>
 <li><a href="https://www.ensembl.org/info/data/biomart/index.html">BioMart</a></li>
 <li><a href="http://www.uniprot.org/">Uniprot</a></li>
@@ -252,32 +251,127 @@ Convert the protein ID on gene symbol (HGNC or HUGO symbol) using ID Mapping ser
 <div id="gene-list" class="section level4 hasAnchor" number="6.1.2.1">
 <h4><span class="header-section-number">6.1.2.1</span> Gene list<a href="analyse-des-interactions-de-protéines.html#gene-list" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We assume that the protein list with quantitative analysis has already been compiled . Supplemental <strong>proteinEXP.txt</strong> file gives an example of the quantitative data which will be used.</p>
-<p>Pre-process the expression data into a format suitable for network analysis, clean the data by removing obvious outlier samples or excessive numbers of missing entries, and then load the data. The gene list is selected after statistical analysis.
-The Fold change and False discovery rate are then computed and saved in the corresponding files: <strong>Fold_Change.NA</strong> and <strong>FDR.NA</strong>.</p>
+<p>Pre-process the expression data into a format suitable for network analysis, clean the data by removing obvious outlier samples or excessive numbers of missing entries, and then load the data. The gene list is selected after statistical analysis. The Fold change and False discovery rate are then computed and saved in the corresponding files: <strong>Fold_Change.NA</strong> and <strong>FDR.NA</strong>.</p>
 </div>
 <div id="multiple-correlation-analysis-of-protein-expression" class="section level4 hasAnchor" number="6.1.2.2">
 <h4><span class="header-section-number">6.1.2.2</span> Multiple Correlation analysis of protein expression<a href="analyse-des-interactions-de-protéines.html#multiple-correlation-analysis-of-protein-expression" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb1-1"><a href="analyse-des-interactions-de-protéines.html#cb1-1"></a><span class="fu">library</span>(visNetwork)</span>
-<span id="cb1-2"><a href="analyse-des-interactions-de-protéines.html#cb1-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
-<span id="cb1-3"><a href="analyse-des-interactions-de-protéines.html#cb1-3"></a>                    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Node&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
-<span id="cb1-4"><a href="analyse-des-interactions-de-protéines.html#cb1-4"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="fl">2.6</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">2</span>),</span>
-<span id="cb1-5"><a href="analyse-des-interactions-de-protéines.html#cb1-5"></a>                    <span class="at">shape =</span><span class="st">&quot;circle&quot;</span>,</span>
-<span id="cb1-6"><a href="analyse-des-interactions-de-protéines.html#cb1-6"></a>                    <span class="at">group=</span> <span class="fu">c</span>(<span class="st">&quot;Gr1&quot;</span>,<span class="st">&quot;Gr3&quot;</span>),</span>
-<span id="cb1-7"><a href="analyse-des-interactions-de-protéines.html#cb1-7"></a>                    <span class="at">color=</span> <span class="fu">c</span>(<span class="st">&quot;#DF0101&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb1-8"><a href="analyse-des-interactions-de-protéines.html#cb1-8"></a>)</span>
-<span id="cb1-9"><a href="analyse-des-interactions-de-protéines.html#cb1-9"></a></span>
-<span id="cb1-10"><a href="analyse-des-interactions-de-protéines.html#cb1-10"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>),</span>
-<span id="cb1-11"><a href="analyse-des-interactions-de-protéines.html#cb1-11"></a>                    <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">9</span>) )</span>
-<span id="cb1-12"><a href="analyse-des-interactions-de-protéines.html#cb1-12"></a></span>
-<span id="cb1-13"><a href="analyse-des-interactions-de-protéines.html#cb1-13"></a></span>
-<span id="cb1-14"><a href="analyse-des-interactions-de-protéines.html#cb1-14"></a></span>
-<span id="cb1-15"><a href="analyse-des-interactions-de-protéines.html#cb1-15"></a>graphe <span class="ot">&lt;-</span> visNetwork<span class="sc">::</span><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
-<span id="cb1-16"><a href="analyse-des-interactions-de-protéines.html#cb1-16"></a></span>
-<span id="cb1-17"><a href="analyse-des-interactions-de-protéines.html#cb1-17"></a>visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">graph=</span> graphe, <span class="at">manipulation =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-18"><a href="analyse-des-interactions-de-protéines.html#cb1-18"></a>                       <span class="at">selectedBy =</span> <span class="st">&quot;group&quot;</span>,</span>
-<span id="cb1-19"><a href="analyse-des-interactions-de-protéines.html#cb1-19"></a>                       <span class="at">highlightNearest =</span> <span class="cn">TRUE</span> )</span></code></pre></div>
-<div id="htmlwidget-36664edc69a1212deeb2" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-36664edc69a1212deeb2">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<p>Two genes are said to be connected by an edge if their expression values are closely correlated (statistical significance). We used <a href="https://www.bioconductor.org/packages/release/bioc/html/CORREP.html">CORREP</a> package <span class="citation">(<a href="#ref-Zhu2007" role="doc-biblioref">Zhu, Li, and Li 2007</a>)</span> to estimate the gene expression correlation.</p>
+<p>This program assumes that data are arranged with the variables (genes) in rows and conditions (persons) in columns . It is strongly suggested that factor names be included in the data file, as this information is used in the results output.</p>
+<p>We specified that the proteins (or genes) are the variables, and the people correspond to the different conditions. In our case we have 235 variables, 6 conditions, and one replicate. It is not possible to carry out multiple correlation analysis using only two conditions and 3 replicates (like in our experimental design).</p>
+<p>Following R codes makes it possible to compute and extract correlated gene expression levels upper that threshold.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="analyse-des-interactions-de-protéines.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install CORREP package from Bioconductor</span></span>
+<span id="cb1-2"><a href="analyse-des-interactions-de-protéines.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="analyse-des-interactions-de-protéines.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-4"><a href="analyse-des-interactions-de-protéines.html#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1-5"><a href="analyse-des-interactions-de-protéines.html#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="analyse-des-interactions-de-protéines.html#cb1-6" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;CORREP&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="analyse-des-interactions-de-protéines.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read expression data</span></span>
+<span id="cb2-2"><a href="analyse-des-interactions-de-protéines.html#cb2-2" aria-hidden="true" tabindex="-1"></a>proteinEXP <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="st">&quot;data/cytoscape/proteinEXP.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="analyse-des-interactions-de-protéines.html#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="analyse-des-interactions-de-protéines.html#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(proteinEXP)</span></code></pre></div>
+<pre><code>##        X114   X115   X116   X117   X118   X119
+## APOB 8.8836 8.4219 8.6484 8.9165 8.9223 8.7495
+## CO4B 6.6138 6.5679 6.2675 5.9642 6.6172 6.7896
+## FINC 8.2777 7.5958 8.4576 8.5394 8.2058 8.6693
+## C3   8.9511 8.3720 8.9676 8.7350 8.4286 8.6948
+## FIBA 8.5089 8.1466 8.4419 8.5200 8.4169 8.4757
+## FIBB 7.9144 7.4734 7.8074 7.9873 7.6940 8.0420</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="analyse-des-interactions-de-protéines.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># standardization / Scale matrix</span></span>
+<span id="cb4-2"><a href="analyse-des-interactions-de-protéines.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Apply by rows (1), the function x/sd(x)</span></span>
+<span id="cb4-3"><a href="analyse-des-interactions-de-protéines.html#cb4-3" aria-hidden="true" tabindex="-1"></a>proteinEXP.std <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X =</span> proteinEXP, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sd</span>(x)) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="analyse-des-interactions-de-protéines.html#cb4-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">t</span>()  <span class="co"># transpose the matrix</span></span>
+<span id="cb4-5"><a href="analyse-des-interactions-de-protéines.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-6"><a href="analyse-des-interactions-de-protéines.html#cb4-6" aria-hidden="true" tabindex="-1"></a>proteinEXP.std <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="analyse-des-interactions-de-protéines.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="dv">4</span>) <span class="co"># return the first 4 rows</span></span></code></pre></div>
+<pre><code>##          X114     X115     X116     X117     X118     X119
+## APOB 45.22405 42.87366 44.02671 45.39154 45.42106 44.54139
+## CO4B 22.02363 21.87078 20.87047 19.86049 22.03495 22.60903
+## FINC 21.76372 19.97087 22.23671 22.45178 21.57468 22.79331
+## C3   35.56489 33.26399 35.63045 34.70627 33.48887 34.54655</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="analyse-des-interactions-de-protéines.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## run correlation for matrix x with 1 replicate and 235 genes</span></span>
+<span id="cb6-2"><a href="analyse-des-interactions-de-protéines.html#cb6-2" aria-hidden="true" tabindex="-1"></a>cor.proteinEXP.std <span class="ot">&lt;-</span> CORREP<span class="sc">::</span><span class="fu">cor.balance</span>(<span class="at">x =</span> proteinEXP.std, <span class="at">m=</span><span class="dv">1</span>, <span class="at">G=</span><span class="dv">235</span>)</span>
+<span id="cb6-3"><a href="analyse-des-interactions-de-protéines.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="analyse-des-interactions-de-protéines.html#cb6-4" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(proteinEXP)</span>
+<span id="cb6-5"><a href="analyse-des-interactions-de-protéines.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cor.proteinEXP.std) <span class="ot">&lt;-</span> genes</span>
+<span id="cb6-6"><a href="analyse-des-interactions-de-protéines.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(cor.proteinEXP.std) <span class="ot">&lt;-</span> genes</span>
+<span id="cb6-7"><a href="analyse-des-interactions-de-protéines.html#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="analyse-des-interactions-de-protéines.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(cor.proteinEXP.std)</span></code></pre></div>
+<pre><code>## [1] &quot;matrix&quot; &quot;array&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="analyse-des-interactions-de-protéines.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cor.proteinEXP.std)</span></code></pre></div>
+<pre><code>## [1] 235 235</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="analyse-des-interactions-de-protéines.html#cb10-1" aria-hidden="true" tabindex="-1"></a>cor.proteinEXP.std[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>##            APOB       CO4B       FINC         C3       FIBA
+## APOB  1.0000000 -0.1450790  0.5262003  0.2474453  0.7064784
+## CO4B -0.1450790  1.0000000 -0.1765416 -0.2414720 -0.2066355
+## FINC  0.5262003 -0.1765416  1.0000000  0.5207811  0.7540140
+## C3    0.2474453 -0.2414720  0.5207811  1.0000000  0.5815279
+## FIBA  0.7064784 -0.2066355  0.7540140  0.5815279  1.0000000</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="analyse-des-interactions-de-protéines.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find indexes of all correlated genes upper/equal than 0.81 and under 1</span></span>
+<span id="cb12-2"><a href="analyse-des-interactions-de-protéines.html#cb12-2" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">abs</span>(cor.proteinEXP.std) <span class="sc">&gt;=</span><span class="fl">0.811</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(cor.proteinEXP.std) <span class="sc">&lt;</span> <span class="dv">1</span> ,<span class="at">arr.ind=</span><span class="cn">TRUE</span>)</span>
+<span id="cb12-3"><a href="analyse-des-interactions-de-protéines.html#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="analyse-des-interactions-de-protéines.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(idx)</span></code></pre></div>
+<pre><code>##       row col
+## CLU    23   3
+## HABP2  90   4
+## MASP1  42   5
+## C1QB   82   5
+## VWF    85   5
+## PROC  100   5</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="analyse-des-interactions-de-protéines.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get correlated genes with rate value</span></span>
+<span id="cb14-2"><a href="analyse-des-interactions-de-protéines.html#cb14-2" aria-hidden="true" tabindex="-1"></a>cor.proteinEXP.std.filter <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">gene1 =</span> genes[idx[,<span class="dv">1</span>]], </span>
+<span id="cb14-3"><a href="analyse-des-interactions-de-protéines.html#cb14-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">gene2=</span> genes[idx[,<span class="dv">2</span>]], </span>
+<span id="cb14-4"><a href="analyse-des-interactions-de-protéines.html#cb14-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">value=</span> cor.proteinEXP.std[idx])</span>
+<span id="cb14-5"><a href="analyse-des-interactions-de-protéines.html#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="analyse-des-interactions-de-protéines.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cor.proteinEXP.std.filter)</span></code></pre></div>
+<pre><code>## [1] 604   3</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="analyse-des-interactions-de-protéines.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cor.proteinEXP.std.filter)</span></code></pre></div>
+<pre><code>##   gene1 gene2     value
+## 1   CLU  FINC 0.8194270
+## 2 HABP2    C3 0.8152893
+## 3 MASP1  FIBA 0.8113223
+## 4  C1QB  FIBA 0.8124264
+## 5   VWF  FIBA 0.8205580
+## 6  PROC  FIBA 0.8186229</code></pre>
+<p>The format of edge attributes that will be imported by Cytoscape must has this format <code>gene1+%28pp%29+gene2=correlation value</code>.</p>
+<p>In our case, we need to concatenate the three columns and add <code>+%28pp%29+</code> between genes and <code>=</code> before value.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="analyse-des-interactions-de-protéines.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># paste columns</span></span>
+<span id="cb18-2"><a href="analyse-des-interactions-de-protéines.html#cb18-2" aria-hidden="true" tabindex="-1"></a>correlated_genes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(cor.proteinEXP.std.filter<span class="sc">$</span>gene1, <span class="st">&quot;+%28pp%29+&quot;</span>, </span>
+<span id="cb18-3"><a href="analyse-des-interactions-de-protéines.html#cb18-3" aria-hidden="true" tabindex="-1"></a>                    cor.proteinEXP.std.filter<span class="sc">$</span>gene2, <span class="st">&quot;=&quot;</span>,</span>
+<span id="cb18-4"><a href="analyse-des-interactions-de-protéines.html#cb18-4" aria-hidden="true" tabindex="-1"></a>                    cor.proteinEXP.std.filter<span class="sc">$</span>value)</span>
+<span id="cb18-5"><a href="analyse-des-interactions-de-protéines.html#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="analyse-des-interactions-de-protéines.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(correlated_genes)</span></code></pre></div>
+<pre><code>## [1] 604</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="analyse-des-interactions-de-protéines.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(correlated_genes)</span></code></pre></div>
+<pre><code>## [1] &quot;CLU+%28pp%29+FINC=0.819427009997673&quot;  
+## [2] &quot;HABP2+%28pp%29+C3=0.815289326650268&quot;  
+## [3] &quot;MASP1+%28pp%29+FIBA=0.811322313383614&quot;
+## [4] &quot;C1QB+%28pp%29+FIBA=0.812426366252153&quot; 
+## [5] &quot;VWF+%28pp%29+FIBA=0.820558036278007&quot;  
+## [6] &quot;PROC+%28pp%29+FIBA=0.818622903586112&quot;</code></pre>
+</div>
+<div id="query-cbio-portal" class="section level4 hasAnchor" number="6.1.2.3">
+<h4><span class="header-section-number">6.1.2.3</span> Query <a href="https://www.cbioportal.org/">cBio Portal</a><a href="analyse-des-interactions-de-protéines.html#query-cbio-portal" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb22-1"><a href="analyse-des-interactions-de-protéines.html#cb22-1"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb22-2"><a href="analyse-des-interactions-de-protéines.html#cb22-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb22-3"><a href="analyse-des-interactions-de-protéines.html#cb22-3"></a>                    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Node&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb22-4"><a href="analyse-des-interactions-de-protéines.html#cb22-4"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="fl">2.6</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">2</span>),</span>
+<span id="cb22-5"><a href="analyse-des-interactions-de-protéines.html#cb22-5"></a>                    <span class="at">shape =</span><span class="st">&quot;circle&quot;</span>,</span>
+<span id="cb22-6"><a href="analyse-des-interactions-de-protéines.html#cb22-6"></a>                    <span class="at">group=</span> <span class="fu">c</span>(<span class="st">&quot;Gr1&quot;</span>,<span class="st">&quot;Gr3&quot;</span>),</span>
+<span id="cb22-7"><a href="analyse-des-interactions-de-protéines.html#cb22-7"></a>                    <span class="at">color=</span> <span class="fu">c</span>(<span class="st">&quot;#DF0101&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb22-8"><a href="analyse-des-interactions-de-protéines.html#cb22-8"></a>)</span>
+<span id="cb22-9"><a href="analyse-des-interactions-de-protéines.html#cb22-9"></a></span>
+<span id="cb22-10"><a href="analyse-des-interactions-de-protéines.html#cb22-10"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>),</span>
+<span id="cb22-11"><a href="analyse-des-interactions-de-protéines.html#cb22-11"></a>                    <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">9</span>) )</span>
+<span id="cb22-12"><a href="analyse-des-interactions-de-protéines.html#cb22-12"></a></span>
+<span id="cb22-13"><a href="analyse-des-interactions-de-protéines.html#cb22-13"></a></span>
+<span id="cb22-14"><a href="analyse-des-interactions-de-protéines.html#cb22-14"></a></span>
+<span id="cb22-15"><a href="analyse-des-interactions-de-protéines.html#cb22-15"></a>graphe <span class="ot">&lt;-</span> visNetwork<span class="sc">::</span><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
+<span id="cb22-16"><a href="analyse-des-interactions-de-protéines.html#cb22-16"></a></span>
+<span id="cb22-17"><a href="analyse-des-interactions-de-protéines.html#cb22-17"></a>visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">graph=</span> graphe, <span class="at">manipulation =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-18"><a href="analyse-des-interactions-de-protéines.html#cb22-18"></a>                       <span class="at">selectedBy =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb22-19"><a href="analyse-des-interactions-de-protéines.html#cb22-19"></a>                       <span class="at">highlightNearest =</span> <span class="cn">TRUE</span> )</span></code></pre></div>
+<div id="htmlwidget-53b75bff8ed686664cea" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-53b75bff8ed686664cea">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
 <!-- # Blocks -->
 <!-- ## Equations -->
 <!-- Here is an equation. -->
@@ -285,9 +379,9 @@ The Fold change and False discovery rate are then computed and saved in the corr
 <!--   f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k} -->
 <!--   (\#eq:binom) -->
 <!-- \end{equation}  -->
-<!-- You may refer to using `\@ref(eq:binom)`, like see Equation \@ref(eq:binom). -->
+<!-- You may refer to using `\@ref(eq:binom)`, like see Equation <a href="#eq:binom">(<strong>??</strong>)</a>. -->
 <!-- ## Theorems and proofs -->
-<!-- Labeled theorems can be referenced in text using `\@ref(thm:tri)`, for example, check out this smart theorem \@ref(thm:tri). -->
+<!-- Labeled theorems can be referenced in text using `\@ref(thm:tri)`, for example, check out this smart theorem <a href="#thm:tri"><strong>??</strong></a>. -->
 <!-- ::: {.theorem #tri} -->
 <!-- For a right triangle, if $c$ denotes the *length* of the hypotenuse -->
 <!-- and $a$ and $b$ denote the lengths of the **other** two sides, we have -->
@@ -324,6 +418,9 @@ Shannon, Paul, Andrew Markiel, Owen Ozier, Nitin S. Baliga, Jonathan T. Wang, Da
 <div id="ref-Wu2010" class="csl-entry">
 Wu, Guanming, Xin Feng, and Lincoln Stein. 2010. <span>“A Human Functional Protein Interaction Network and Its Application to Cancer Data Analysis.”</span> <em>Genome Biology</em> 11: R53. <a href="https://doi.org/10.1186/gb-2010-11-5-r53">https://doi.org/10.1186/gb-2010-11-5-r53</a>.
 </div>
+<div id="ref-Zhu2007" class="csl-entry">
+Zhu, Dongxiao, Youjuan Li, and Hua Li. 2007. <span>“Multivariate Correlation Estimator for Inferring Functional Relationships from Replicated Genome-Wide Data.”</span> <em>Bioinformatics (Oxford, England)</em> 23 (September): 2298–2305. <a href="https://doi.org/10.1093/bioinformatics/btm328">https://doi.org/10.1093/bioinformatics/btm328</a>.
+</div>
 </div>
             </section>
 
@@ -356,7 +453,11 @@ gitbook.start({
 "whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
-"fontsettings": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
 "edit": {
 "link": "https://github.com/kmezhoud/Bioinformatics/edit/main/05-interactomics.Rmd",
 "text": "Edit"

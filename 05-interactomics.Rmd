@@ -1,69 +1,151 @@
 # Analyse des Interactions de protéines
 
-1. Orale presentation
+1.  Orale presentation
 
-2. Include slides
+2.  Include slides
 
-   + second level
-     - third level
-    
+    -   second level
+
+        -   third level
+
 ## Cas d'étude: Identification Graphique de sous-réseaux de gènes associés aux cancers basé sur des données protéomiques réduites
 
-This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The [Tools & Data](#tools-data) section lists all the tools and data required. The “Data computing” section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
+This tutorial describes the main steps used to construct an enriched network from a list of genes with their expression values. The network includes the fold change, the False discovery rate (FDR), the gene expression correlation, the most often involved biological processes, and the most likely corresponding diseases. All the main steps are illustrated by screen shots. The [Tools & Data](#tools-data) section lists all the tools and data required. The "Data computing" section shows you how to compute the data. The Experimental procedure section lists briefly all the steps, and the Walk-through example section illustrates these steps. The final section lists all the software and packages that were tested during this study, but not selected for inclusion in this Note.
 
-### Tools & Data
+### Tools & Data {#tools-data}
 
 For this tutorial you will need:
 
-1. Bioinformatic tools
+1.  Bioinformatic tools
 
-Cytoscape [@Shannon2003;@Cline2007] software implemented by Reactome FIs [@Wu2010], Advanced Network merge, NetworkAnalyzer, and ClueGO [@Bindea2009] Apps.
+Cytoscape [@Shannon2003; @Cline2007] software implemented by Reactome FIs [@Wu2010], Advanced Network merge, NetworkAnalyzer, and ClueGO [@Bindea2009] Apps.
 
-2. Experimental Data
+2.  Experimental Data
 
 To find out more about the file format, download the corresponding supplemental file indicated in parentheses.
 
-* The list of modulated protein saved in one column in text file (only_modulated_symbol.txt).
-Convert the protein ID on gene symbol (HGNC or HUGO symbol) using ID Mapping service, such as:
+-   The list of modulated protein saved in one column in text file (only_modulated_symbol.txt). Convert the protein ID on gene symbol (HGNC or HUGO symbol) using ID Mapping service, such as:
 
-  + [BioMart](https://www.ensembl.org/info/data/biomart/index.html)
-  + [Uniprot](http://www.uniprot.org/)
-  + [Idconverter](https://cran.r-project.org/web/packages/IDConverter/index.html) [@Alibes2007] 
-  + [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) [@Luo2009] with the `eg2sym` function.
+    -   [BioMart](https://www.ensembl.org/info/data/biomart/index.html)
+    -   [Uniprot](http://www.uniprot.org/)
+    -   [Idconverter](https://cran.r-project.org/web/packages/IDConverter/index.html) [@Alibes2007]
+    -   [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) [@Luo2009] with the `eg2sym` function.
 
-* The protein expression values. The following example of gene expression is divided into two groups and 3 replicates. (proteinEXP.txt)
+-   The protein expression values. The following example of gene expression is divided into two groups and 3 replicates. (proteinEXP.txt)
 
-* Node Attributes
-  + Fold change of the protein identified (Fold_Change.NA)
-  + False discovery rate of the z score or some other statistical test (FDR.NA)
-  + Correlated protein expression by statistical analysis (Correlation_Network.sif)
-  + Cancer-protein network (Cancer_Network.sif)
+-   Node Attributes
 
-* Edge attributes
-  + The correlation rate of Protein expression (Correlation+Cancer.EA)
-  + The gene expression profile overlap between our experiments and clinical data from the [cBio Cancer Genomics Portal]((http://www.cbioportal.org/)) [@Cerami2012] (Correlation+Cancer.EA)
+    -   Fold change of the protein identified (Fold_Change.NA)
+    -   False discovery rate of the z score or some other statistical test (FDR.NA)
+    -   Correlated protein expression by statistical analysis (Correlation_Network.sif)
+    -   Cancer-protein network (Cancer_Network.sif)
 
+-   Edge attributes
+
+    -   The correlation rate of Protein expression (Correlation+Cancer.EA)
+    -   The gene expression profile overlap between our experiments and clinical data from the [cBio Cancer Genomics Portal]((http://www.cbioportal.org/)) [@Cerami2012] (Correlation+Cancer.EA)
 
 ### Data Computing
-
 
 #### Gene list
 
 We assume that the protein list with quantitative analysis has already been compiled . Supplemental **proteinEXP.txt** file gives an example of the quantitative data which will be used.
 
-Pre-process the expression data into a format suitable for network analysis, clean the data by removing obvious outlier samples or excessive numbers of missing entries, and then load the data. The gene list is selected after statistical analysis.
-The Fold change and False discovery rate are then computed and saved in the corresponding files: **Fold_Change.NA** and **FDR.NA**.
+Pre-process the expression data into a format suitable for network analysis, clean the data by removing obvious outlier samples or excessive numbers of missing entries, and then load the data. The gene list is selected after statistical analysis. The Fold change and False discovery rate are then computed and saved in the corresponding files: **Fold_Change.NA** and **FDR.NA**.
 
 #### Multiple Correlation analysis of protein expression
 
-Two genes are said to be connected by an edge if their expression values are closely correlated (statistical significance).
-We used [CORREP](https://www.bioconductor.org/packages/release/bioc/html/CORREP.html) package [@Zhu2007] to estimate the gene expression correlation.
+Two genes are said to be connected by an edge if their expression values are closely correlated (statistical significance). We used [CORREP](https://www.bioconductor.org/packages/release/bioc/html/CORREP.html) package [@Zhu2007] to estimate the gene expression correlation.
 
 This program assumes that data are arranged with the variables (genes) in rows and conditions (persons) in columns . It is strongly suggested that factor names be included in the data file, as this information is used in the results output.
 
 We specified that the proteins (or genes) are the variables, and the people correspond to the different conditions. In our case we have 235 variables, 6 conditions, and one replicate. It is not possible to carry out multiple correlation analysis using only two conditions and 3 replicates (like in our experimental design).
 
-Following R and shell codes makes it possible to compute and extract the correlation rate between gene expression levels.
+Following R codes makes it possible to compute and extract correlated gene expression levels upper that threshold.
+
+```{r, eval=FALSE}
+# Install CORREP package from Bioconductor
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("CORREP")
+```
+
+```{r}
+# read expression data
+proteinEXP <- read.table(file = "data/cytoscape/proteinEXP.txt", header = TRUE, row.names = 1)
+
+head(proteinEXP)
+```
+
+```{r}
+# standardization / Scale matrix
+#  Apply by rows (1), the function x/sd(x)
+proteinEXP.std <- apply(X = proteinEXP, MARGIN = 1, FUN = function(x) x/sd(x)) |>
+                  t()  # transpose the matrix
+  
+proteinEXP.std |>
+head(4) # return the first 4 rows
+```
+
+```{r}
+## run correlation for matrix x with 1 replicate and 235 genes
+cor.proteinEXP.std <- CORREP::cor.balance(x = proteinEXP.std, m=1, G=235)
+
+genes <- rownames(proteinEXP)
+colnames(cor.proteinEXP.std) <- genes
+rownames(cor.proteinEXP.std) <- genes
+
+class(cor.proteinEXP.std)
+dim(cor.proteinEXP.std)
+cor.proteinEXP.std[1:5, 1:5]
+```
+
+```{r}
+# find indexes of all correlated genes upper/equal than 0.81 and under 1
+idx <- which(abs(cor.proteinEXP.std) >=0.811 & abs(cor.proteinEXP.std) < 1 ,arr.ind=TRUE)
+
+head(idx)
+```
+
+```{r}
+# get correlated genes with rate value
+cor.proteinEXP.std.filter <- data.frame(gene1 = genes[idx[,1]], 
+                                        gene2= genes[idx[,2]], 
+                                        value= cor.proteinEXP.std[idx])
+
+dim(cor.proteinEXP.std.filter)
+head(cor.proteinEXP.std.filter)
+```
+The format of edge attributes that will be imported by Cytoscape must has this format `gene1+%28pp%29+gene2=correlation value`.
+
+In our case, we need to concatenate the three columns and add `+%28pp%29+` between genes and `=` before value.
+
+```{r}
+# paste columns
+correlated_genes <- paste0(cor.proteinEXP.std.filter$gene1, "+%28pp%29+", 
+                    cor.proteinEXP.std.filter$gene2, "=",
+                    cor.proteinEXP.std.filter$value)
+
+length(correlated_genes)
+head(correlated_genes)
+```
+
+#### Query [cBio Portal](https://www.cbioportal.org/) 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,8 +176,6 @@ visNetwork::visOptions(graph= graphe, manipulation = TRUE,
 
 ```
 
-
-
 <!-- # Blocks -->
 
 <!-- ## Equations -->
@@ -103,26 +183,31 @@ visNetwork::visOptions(graph= graphe, manipulation = TRUE,
 <!-- Here is an equation. -->
 
 <!-- \begin{equation}  -->
+
 <!--   f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k} -->
+
 <!--   (\#eq:binom) -->
+
 <!-- \end{equation}  -->
 
-<!-- You may refer to using `\@ref(eq:binom)`, like see Equation \@ref(eq:binom). -->
-
+<!-- You may refer to using `\@ref(eq:binom)`, like see Equation @ref(eq:binom). -->
 
 <!-- ## Theorems and proofs -->
 
-<!-- Labeled theorems can be referenced in text using `\@ref(thm:tri)`, for example, check out this smart theorem \@ref(thm:tri). -->
+<!-- Labeled theorems can be referenced in text using `\@ref(thm:tri)`, for example, check out this smart theorem @ref(thm:tri). -->
 
 <!-- ::: {.theorem #tri} -->
+
 <!-- For a right triangle, if $c$ denotes the *length* of the hypotenuse -->
+
 <!-- and $a$ and $b$ denote the lengths of the **other** two sides, we have -->
+
 <!-- $$a^2 + b^2 = c^2$$ -->
+
 <!-- ::: -->
 
 <!-- Read more here <https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html>. -->
 
 <!-- ## Callout blocks -->
-
 
 <!-- The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html -->

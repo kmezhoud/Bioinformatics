@@ -9,4 +9,5 @@ tools-data
 data-computing
 gene-list
 multiple-correlation-analysis-of-protein-expression
+query-cbio-portal
 autres

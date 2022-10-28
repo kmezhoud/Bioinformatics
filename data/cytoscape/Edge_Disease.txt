@@ -1,0 +1,257 @@
+####################################################
+#This is the Cancer-frequency.NA file.
+#Commented lines (#) must be deleted before use.
+#You must change the extension from .txt to .NA before importing with Cytoscape.
+#This file attributes Cancers (nodes) with their frequency. 
+####################Save this part in file and convert 54,4% to 0.54##############################
+
+Cancer	Altered of cases
+Serous Ovarian Cancer (TCGA) 	54,40%
+Bladder Urothelial Carcinoma (TCGA, Provisional) 	44,70%
+Lung Squamous Cell Carcinoma (TCGA, Provisional) 	41,60%
+Cervical Squamous Cell Carcinoma (TCGA, Provisional) 	36,10%
+Colon and Rectum Adenocarcinoma (TCGA, Provisional 	35,80%
+Breast Invasive Carcinoma (TCGA, Provisional) 	31,90%
+Lung Adenocarcinoma (TCGA, Provisional) 	29,00%
+Head and Neck Squamous Cell Carcinoma (TCGA, Provisional) 	26,70%
+Stomach Adenocarcinoma (TCGA, Provisional) 	26,50%
+Sarcoma (MSKCC/Broad) 	24,80%
+Liver Hepatocellular Carcinoma (TCGA, Provisional) 	20,80%
+Brain Lower Grade Glioma (TCGA, Provisional) 	12,50%
+Prostate Adenocarcinoma (TCGA, Provisional) 	12,20%
+Uterine Corpus Endometrioid Carcinoma (TCGA, Provisional) 	10,80%
+Prostate Cancer (MSKCC) 	8,20%
+Glioblastoma (TCGA) 	7,40%
+Kidney Renal Clear Cell Carcinoma (TCGA, Provisional) 	7,30%
+Pancreatic Adenocarcinoma (TCGA, Provisional) 	7,10%
+Kidney Renal Papillary Cell Carcinoma (TCGA, Provisional)	7,00%
+Thyroid Carcinoma (TCGA, Provisional) . 	2,40%
+
+###########The following part exist yet in correlation+Cancer.txt file###########################
+###########Save this part in an other file and convert comma to point############################
+
+#This is the second part of the correlation+Cancer.txt file .
+#Commented lines (#) must be deleted before use.
+#You must change the extension from .txt to .EA before importing with Cytoscape.
+#This file attributes values to interactions (Edges). Thers is two types of interactions: gene-#gene and gene-cancer.
+#This part existe in the correlation+Cancer.txt file
+#####################################
+Serous Ovarian Cancer (TCGA)/All Complete Tumors: (316)				PERCENT_CASES_ALTERED
+Ovarian_C (class=java.lang.Double)				
+TF	+%28pp%29+	Ovarian_C	=	0,92
+PPBP	+%28pp%29+	Ovarian_C	=	0,91
+CFHR2	+%28pp%29+	Ovarian_C	=	0,896
+CRP	+%28pp%29+	Ovarian_C	=	0,886
+CFHR1	+%28pp%29+	Ovarian_C	=	0,883
+RBP4	+%28pp%29+	Ovarian_C	=	0,877
+PRAP1	+%28pp%29+	Ovarian_C	=	0,858
+ADH4	+%28pp%29+	Ovarian_C	=	0,832
+LGALS3BP	+%28pp%29+	Ovarian_C	=	0,829
+COMP	+%28pp%29+	Ovarian_C	=	0,797
+YWHAZ	+%28pp%29+	Ovarian_C	=	0,491
+TFRC	+%28pp%29+	Ovarian_C	=	0,326
+TPM4	+%28pp%29+	Ovarian_C	=	0,253
+VCP	+%28pp%29+	Ovarian_C	=	0,168
+S100A8	+%28pp%29+	Ovarian_C	=	0,161
+HSPG2	+%28pp%29+	Ovarian_C	=	0,155
+PZP	+%28pp%29+	Ovarian_C	=	0,149
+ACTB	+%28pp%29+	Ovarian_C	=	0,142
+RAP1A	+%28pp%29+	Ovarian_C	=	0,142
+BPIFB1	+%28pp%29+	Ovarian_C	=	0,092
+ACTN1	+%28pp%29+	Ovarian_C	=	0,085
+GC	+%28pp%29+	Ovarian_C	=	0,063
+ORM2	+%28pp%29+	Ovarian_C	=	0,063
+KLKB1	+%28pp%29+	Ovarian_C	=	0,057
+ITIH3	+%28pp%29+	Ovarian_C	=	0,051
+HBA1	+%28pp%29+	Ovarian_C	=	0
+IGHD	+%28pp%29+	Ovarian_C	=	0
+				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		178 samples
+Lunch.Sq_C (class=java.lang.Double)				
+ADH4	+%28pp%29+	Lunch.Sq_C	=	0,989
+CFHR2	+%28pp%29+	Lunch.Sq_C	=	0,983
+PPBP	+%28pp%29+	Lunch.Sq_C	=	0,983
+PRAP1	+%28pp%29+	Lunch.Sq_C	=	0,983
+CRP	+%28pp%29+	Lunch.Sq_C	=	0,966
+HBA1	+%28pp%29+	Lunch.Sq_C	=	0,961
+TF	+%28pp%29+	Lunch.Sq_C	=	0,938
+COMP	+%28pp%29+	Lunch.Sq_C	=	0,921
+RBP4	+%28pp%29+	Lunch.Sq_C	=	0,921
+CFHR1	+%28pp%29+	Lunch.Sq_C	=	0,854
+LGALS3BP	+%28pp%29+	Lunch.Sq_C	=	0,803
+TFRC	+%28pp%29+	Lunch.Sq_C	=	0,612
+ACTB	+%28pp%29+	Lunch.Sq_C	=	0,264
+YWHAZ	+%28pp%29+	Lunch.Sq_C	=	0,242
+VCP	+%28pp%29+	Lunch.Sq_C	=	0,23
+TPM4	+%28pp%29+	Lunch.Sq_C	=	0,146
+ACTN1	+%28pp%29+	Lunch.Sq_C	=	0,135
+RAP1A	+%28pp%29+	Lunch.Sq_C	=	0,129
+ORM2	+%28pp%29+	Lunch.Sq_C	=	0,101
+PZP	+%28pp%29+	Lunch.Sq_C	=	0,101
+KLKB1	+%28pp%29+	Lunch.Sq_C	=	0,096
+HSPG2	+%28pp%29+	Lunch.Sq_C	=	0,09
+ITIH3	+%28pp%29+	Lunch.Sq_C	=	0,084
+S100A8	+%28pp%29+	Lunch.Sq_C	=	0,073
+BPIFB1	+%28pp%29+	Lunch.Sq_C	=	0,056
+GC	+%28pp%29+	Lunch.Sq_C	=	0,034
+IGHD	+%28pp%29+	Lunch.Sq_C	=	0
+				
+				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		193 samples
+Colon_C  (class=java.lang.Double)				
+CRP	+%28pp%29+	Colon_C	=	0,995
+PPBP	+%28pp%29+	Colon_C	=	0,984
+TF	+%28pp%29+	Colon_C	=	0,948
+CFHR1	+%28pp%29+	Colon_C	=	0,933
+COMP	+%28pp%29+	Colon_C	=	0,933
+ADH4	+%28pp%29+	Colon_C	=	0,912
+HBA1	+%28pp%29+	Colon_C	=	0,896
+RBP4	+%28pp%29+	Colon_C	=	0,886
+PRAP1	+%28pp%29+	Colon_C	=	0,881
+LGALS3BP	+%28pp%29+	Colon_C	=	0,86
+YWHAZ	+%28pp%29+	Colon_C	=	0,326
+TFRC	+%28pp%29+	Colon_C	=	0,192
+VCP	+%28pp%29+	Colon_C	=	0,187
+TPM4	+%28pp%29+	Colon_C	=	0,166
+RAP1A	+%28pp%29+	Colon_C	=	0,145
+HSPG2	+%28pp%29+	Colon_C	=	0,119
+ACTN1	+%28pp%29+	Colon_C	=	0,109
+ACTB	+%28pp%29+	Colon_C	=	0,088
+KLKB1	+%28pp%29+	Colon_C	=	0,083
+PZP	+%28pp%29+	Colon_C	=	0,078
+ITIH3	+%28pp%29+	Colon_C	=	0,067
+ORM2	+%28pp%29+	Colon_C	=	0,052
+S100A8	+%28pp%29+	Colon_C	=	0,052
+BPIFB1	+%28pp%29+	Colon_C	=	0,031
+GC	+%28pp%29+	Colon_C	=	0,031
+CFHR2	+%28pp%29+	Colon_C	=	0
+IGHD	+%28pp%29+	Colon_C	=	0
+				
+				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		320 samples
+Breast_C	(class=java.lang.Double)			
+CFHR2	+%28pp%29+	Breast_C	=	0,991
+PPBP	+%28pp%29+	Breast_C	=	0,978
+TF	+%28pp%29+	Breast_C	=	0,969
+ADH4	+%28pp%29+	Breast_C	=	0,962
+PRAP1	+%28pp%29+	Breast_C	=	0,941
+HBA1	+%28pp%29+	Breast_C	=	0,925
+CRP	+%28pp%29+	Breast_C	=	0,919
+RBP4	+%28pp%29+	Breast_C	=	0,919
+COMP	+%28pp%29+	Breast_C	=	0,903
+CFHR1	+%28pp%29+	Breast_C	=	0,862
+LGALS3BP	+%28pp%29+	Breast_C	=	0,781
+YWHAZ	+%28pp%29+	Breast_C	=	0,441
+ACTB	+%28pp%29+	Breast_C	=	0,194
+TFRC	+%28pp%29+	Breast_C	=	0,194
+TPM4	+%28pp%29+	Breast_C	=	0,159
+VCP	+%28pp%29+	Breast_C	=	0,159
+ACTN1	+%28pp%29+	Breast_C	=	0,141
+HSPG2	+%28pp%29+	Breast_C	=	0,131
+RAP1A	+%28pp%29+	Breast_C	=	0,122
+KLKB1	+%28pp%29+	Breast_C	=	0,094
+PZP	+%28pp%29+	Breast_C	=	0,084
+S100A8	+%28pp%29+	Breast_C	=	0,072
+ITIH3	+%28pp%29+	Breast_C	=	0,056
+BPIFB1	+%28pp%29+	Breast_C	=	0,053
+ORM2	+%28pp%29+	Breast_C	=	0,022
+GC	+%28pp%29+	Breast_C	=	0
+IGHD	+%28pp%29+	Breast_C	=	0
+				
+            				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		85 samples
+Prostate_C	(class=java.lang.Double)			
+LGALS3BP	+%28pp%29+	Prostate_C	=	0,953
+RBP4	+%28pp%29+	Prostate_C	=	0,929
+TF	+%28pp%29+	Prostate_C	=	0,929
+COMP	+%28pp%29+	Prostate_C	=	0,882
+CFHR1	+%28pp%29+	Prostate_C	=	0,871
+ADH4	+%28pp%29+	Prostate_C	=	0,859
+CRP	+%28pp%29+	Prostate_C	=	0,776
+HBA1	+%28pp%29+	Prostate_C	=	0,776
+PRAP1	+%28pp%29+	Prostate_C	=	0,776
+PPBP	+%28pp%29+	Prostate_C	=	0,765
+CFHR2	+%28pp%29+	Prostate_C	=	0,624
+S100A8	+%28pp%29+	Prostate_C	=	0,271
+TFRC	+%28pp%29+	Prostate_C	=	0,271
+GC	+%28pp%29+	Prostate_C	=	0,259
+BPIFB1	+%28pp%29+	Prostate_C	=	0,247
+ITIH3	+%28pp%29+	Prostate_C	=	0,235
+YWHAZ	+%28pp%29+	Prostate_C	=	0,188
+KLKB1	+%28pp%29+	Prostate_C	=	0,153
+PZP	+%28pp%29+	Prostate_C	=	0,141
+VCP	+%28pp%29+	Prostate_C	=	0,141
+ORM2	+%28pp%29+	Prostate_C	=	0,106
+RAP1A	+%28pp%29+	Prostate_C	=	0,071
+TPM4	+%28pp%29+	Prostate_C	=	0,071
+ACTB	+%28pp%29+	Prostate_C	=	0,035
+ACTN1	+%28pp%29+	Prostate_C	=	0
+HSPG2	+%28pp%29+	Prostate_C	=	0
+IGHD	+%28pp%29+	Prostate_C	=	0
+				
+            				
+				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		122 samples
+Glioblastoma_C	(class=java.lang.Double)			
+CFHR2	+%28pp%29+	Glioblastoma_C	=	0,934
+ADH4	+%28pp%29+	Glioblastoma_C	=	0,877
+CFHR1	+%28pp%29+	Glioblastoma_C	=	0,861
+RBP4	+%28pp%29+	Glioblastoma_C	=	0,861
+CRP	+%28pp%29+	Glioblastoma_C	=	0,852
+PPBP	+%28pp%29+	Glioblastoma_C	=	0,836
+TF	+%28pp%29+	Glioblastoma_C	=	0,82
+COMP	+%28pp%29+	Glioblastoma_C	=	0,795
+PRAP1	+%28pp%29+	Glioblastoma_C	=	0,787
+LGALS3BP	+%28pp%29+	Glioblastoma_C	=	0,738
+TPM4	+%28pp%29+	Glioblastoma_C	=	0,361
+HSPG2	+%28pp%29+	Glioblastoma_C	=	0,18
+ITIH3	+%28pp%29+	Glioblastoma_C	=	0,164
+S100A8	+%28pp%29+	Glioblastoma_C	=	0,164
+VCP	+%28pp%29+	Glioblastoma_C	=	0,164
+KLKB1	+%28pp%29+	Glioblastoma_C	=	0,156
+ACTN1	+%28pp%29+	Glioblastoma_C	=	0,148
+PZP	+%28pp%29+	Glioblastoma_C	=	0,139
+BPIFB1	+%28pp%29+	Glioblastoma_C	=	0,131
+ACTB	+%28pp%29+	Glioblastoma_C	=	0,082
+TFRC	+%28pp%29+	Glioblastoma_C	=	0,066
+YWHAZ	+%28pp%29+	Glioblastoma_C	=	0,066
+ORM2	+%28pp%29+	Glioblastoma_C	=	0,057
+RAP1A	+%28pp%29+	Glioblastoma_C	=	0,041
+GC	+%28pp%29+	Glioblastoma_C	=	0,025
+HBA1	+%28pp%29+	Glioblastoma_C	=	0
+IGHD	+%28pp%29+	Glioblastoma_C	=	0
+				
+				
+Kidney Renal Clear Cell Carcinoma (TCGA, Provisional)				
+				
+				
+GENE_SYMBOL	NUM_CASES_ALTERED	PERCENT_CASES_ALTERED		368 samples
+Kidney_C	(class=java.lang.Double)			
+ADH4	+%28pp%29+	Kidney_C	=	0,997
+CFHR2	+%28pp%29+	Kidney_C	=	0,984
+CRP	+%28pp%29+	Kidney_C	=	0,978
+TF	+%28pp%29+	Kidney_C	=	0,973
+PPBP	+%28pp%29+	Kidney_C	=	0,962
+COMP	+%28pp%29+	Kidney_C	=	0,94
+HBA1	+%28pp%29+	Kidney_C	=	0,938
+RBP4	+%28pp%29+	Kidney_C	=	0,921
+PRAP1	+%28pp%29+	Kidney_C	=	0,908
+CFHR1	+%28pp%29+	Kidney_C	=	0,87
+LGALS3BP	+%28pp%29+	Kidney_C	=	0,818
+ACTB	+%28pp%29+	Kidney_C	=	0,16
+TFRC	+%28pp%29+	Kidney_C	=	0,158
+TPM4	+%28pp%29+	Kidney_C	=	0,152
+ACTN1	+%28pp%29+	Kidney_C	=	0,147
+YWHAZ	+%28pp%29+	Kidney_C	=	0,147
+VCP	+%28pp%29+	Kidney_C	=	0,13
+ITIH3	+%28pp%29+	Kidney_C	=	0,12
+BPIFB1	+%28pp%29+	Kidney_C	=	0,114
+HSPG2	+%28pp%29+	Kidney_C	=	0,109
+KLKB1	+%28pp%29+	Kidney_C	=	0,101
+PZP	+%28pp%29+	Kidney_C	=	0,084
+RAP1A	+%28pp%29+	Kidney_C	=	0,082
+S100A8	+%28pp%29+	Kidney_C	=	0,049
+GC	+%28pp%29+	Kidney_C	=	0,041
+ORM2	+%28pp%29+	Kidney_C	=	0,014
+IGHD	+%28pp%29+	Kidney_C	=	0
+
