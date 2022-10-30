@@ -23,7 +23,7 @@
 <meta name="author" content="Karim Mezhoud" />
 
 
-<meta name="date" content="2022-10-28" />
+<meta name="date" content="2022-10-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -341,22 +341,19 @@ div.csl-indent {
 <span id="cb13-6"><a href="interactomics.html#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(correlation_network)</span></code></pre></div>
 <pre><code>## [1] &quot;CLU PP FINC&quot;   &quot;HABP2 PP C3&quot;   &quot;MASP1 PP FIBA&quot; &quot;C1QB PP FIBA&quot; 
 ## [5] &quot;VWF PP FIBA&quot;   &quot;PROC PP FIBA&quot;</code></pre>
-<p>The format of edge attributes that will be imported by Cytoscape must has this format <code>gene1+%28pp%29+gene2=correlation value</code>.</p>
+<p>The format of edge attributes that will be imported by Cytoscape must has this format <code>gene1[space](PP)[space]gene2[space]correlation_value</code>.</p>
 <p>In our case, we need to concatenate the three columns and add <code>+%28pp%29+</code> between genes and <code>=</code> before value.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="interactomics.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># paste columns</span></span>
-<span id="cb15-2"><a href="interactomics.html#cb15-2" aria-hidden="true" tabindex="-1"></a>correlated_genes.EA <span class="ot">&lt;-</span> <span class="fu">paste0</span>(cor.proteinEXP.std.filter<span class="sc">$</span>gene1, <span class="st">&quot;+%28pp%29+&quot;</span>, </span>
-<span id="cb15-3"><a href="interactomics.html#cb15-3" aria-hidden="true" tabindex="-1"></a>                    cor.proteinEXP.std.filter<span class="sc">$</span>gene2, <span class="st">&quot;=&quot;</span>,</span>
+<span id="cb15-2"><a href="interactomics.html#cb15-2" aria-hidden="true" tabindex="-1"></a>correlated_genes.EA <span class="ot">&lt;-</span> <span class="fu">paste0</span>(cor.proteinEXP.std.filter<span class="sc">$</span>gene1, <span class="st">&quot; (PP) &quot;</span>, </span>
+<span id="cb15-3"><a href="interactomics.html#cb15-3" aria-hidden="true" tabindex="-1"></a>                    cor.proteinEXP.std.filter<span class="sc">$</span>gene2, <span class="st">&quot;,&quot;</span>,</span>
 <span id="cb15-4"><a href="interactomics.html#cb15-4" aria-hidden="true" tabindex="-1"></a>                    cor.proteinEXP.std.filter<span class="sc">$</span>value)</span>
 <span id="cb15-5"><a href="interactomics.html#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="interactomics.html#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(correlated_genes.EA)</span></code></pre></div>
 <pre><code>## [1] 604</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="interactomics.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(correlated_genes.EA)</span></code></pre></div>
-<pre><code>## [1] &quot;CLU+%28pp%29+FINC=0.819427009997673&quot;  
-## [2] &quot;HABP2+%28pp%29+C3=0.815289326650268&quot;  
-## [3] &quot;MASP1+%28pp%29+FIBA=0.811322313383614&quot;
-## [4] &quot;C1QB+%28pp%29+FIBA=0.812426366252153&quot; 
-## [5] &quot;VWF+%28pp%29+FIBA=0.820558036278007&quot;  
-## [6] &quot;PROC+%28pp%29+FIBA=0.818622903586112&quot;</code></pre>
+<pre><code>## [1] &quot;CLU (PP) FINC,0.819427009997673&quot;   &quot;HABP2 (PP) C3,0.815289326650268&quot;  
+## [3] &quot;MASP1 (PP) FIBA,0.811322313383614&quot; &quot;C1QB (PP) FIBA,0.812426366252153&quot; 
+## [5] &quot;VWF (PP) FIBA,0.820558036278007&quot;   &quot;PROC (PP) FIBA,0.818622903586112&quot;</code></pre>
 <p>The <code>correlated_genes.EA</code> object is the Egdes Attribution of correlated genes. It will be saved and used as input file for cytoscape.</p>
 <p>But before to save it, we need to add Edges attribution of interaction between genes and cancers.</p>
 <p>We will use <a href="https://www.cbioportal.org/">cBio Portal</a> web service to predict the frequency of altered genes (only_modulated_symbol.txt file) in existing cancers studies.</p>
@@ -440,23 +437,32 @@ After quering, go to the <strong>Cancer Type Summary</strong> Tab and visualize 
 ## 4 Uterine Endometrioid Carcinoma        0.44 
 ## 5 Skin Cancer, Non-Melanoma             0.43 
 ## 6 Bladder/Urinary Tract Cancer, NOS     0.425</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="interactomics.html#cb25-1" aria-hidden="true" tabindex="-1"></a>cancer_frequency <span class="ot">&lt;-</span> <span class="fu">paste0</span>(cancer_type_summary_freq<span class="sc">$</span>Cancer.Type, </span>
-<span id="cb25-2"><a href="interactomics.html#cb25-2" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot; = &quot;</span>, cancer_type_summary_freq<span class="sc">$</span>Freq_mean)</span>
-<span id="cb25-3"><a href="interactomics.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-4"><a href="interactomics.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="do">## save only the first 6 cancers</span></span>
-<span id="cb25-5"><a href="interactomics.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-6"><a href="interactomics.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">head</span>(cancer_frequency, <span class="dv">10</span>),</span>
-<span id="cb25-7"><a href="interactomics.html#cb25-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;data/cytoscape_input/new_version/Cancer_frequency.NA&quot;</span>,</span>
-<span id="cb25-8"><a href="interactomics.html#cb25-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="st">&quot;Cancer frequency (class=java.lang.Double)&quot;</span></span>
-<span id="cb25-9"><a href="interactomics.html#cb25-9" aria-hidden="true" tabindex="-1"></a>            ) </span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="interactomics.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## use comma to separate column. cancer type label column has space. During importing this file use comma as separated column</span></span>
+<span id="cb25-2"><a href="interactomics.html#cb25-2" aria-hidden="true" tabindex="-1"></a>cancer_frequency <span class="ot">&lt;-</span> <span class="fu">paste0</span>(cancer_type_summary_freq<span class="sc">$</span>Cancer.Type, </span>
+<span id="cb25-3"><a href="interactomics.html#cb25-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;,&quot;</span>, cancer_type_summary_freq<span class="sc">$</span>Freq_mean)</span>
+<span id="cb25-4"><a href="interactomics.html#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="interactomics.html#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="do">## rename with short label</span></span>
+<span id="cb25-6"><a href="interactomics.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="do">## we will to this manually since we have 6-10 labels</span></span>
+<span id="cb25-7"><a href="interactomics.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#dput(head(cancer_type_summary_freq$Cancer.Type, 10))</span></span>
+<span id="cb25-8"><a href="interactomics.html#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="interactomics.html#cb25-9" aria-hidden="true" tabindex="-1"></a>manual_cancer_type_label <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Lung&quot;</span>, <span class="st">&quot;Ovarian&quot;</span>, <span class="st">&quot;Breast&quot;</span>,<span class="st">&quot;Uterine&quot;</span>, <span class="st">&quot;Skin&quot;</span>, <span class="st">&quot;Bladder&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Endometrial&quot;</span>, <span class="st">&quot;Esophagogastric&quot;</span>)</span>
 <span id="cb25-10"><a href="interactomics.html#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="interactomics.html#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cancer_frequency)</span></code></pre></div>
-<pre><code>## [1] &quot;Lung Cancer = 0.585&quot;                      
-## [2] &quot;Ovarian Cancer = 0.495&quot;                   
-## [3] &quot;Invasive Breast Carcinoma = 0.49&quot;         
-## [4] &quot;Uterine Endometrioid Carcinoma = 0.44&quot;    
-## [5] &quot;Skin Cancer, Non-Melanoma = 0.43&quot;         
-## [6] &quot;Bladder/Urinary Tract Cancer, NOS = 0.425&quot;</code></pre>
+<span id="cb25-11"><a href="interactomics.html#cb25-11" aria-hidden="true" tabindex="-1"></a>manual_cancer_frequency <span class="ot">&lt;-</span> <span class="fu">paste0</span>(manual_cancer_type_label, </span>
+<span id="cb25-12"><a href="interactomics.html#cb25-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;,&quot;</span>, cancer_type_summary_freq<span class="sc">$</span>Freq_mean[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>])</span>
+<span id="cb25-13"><a href="interactomics.html#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="interactomics.html#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="do">## save only the first 6 cancers</span></span>
+<span id="cb25-15"><a href="interactomics.html#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(manual_cancer_frequency,</span>
+<span id="cb25-16"><a href="interactomics.html#cb25-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;data/cytoscape_input/new_version/Cancer_frequency.NA&quot;</span>,</span>
+<span id="cb25-17"><a href="interactomics.html#cb25-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="st">&quot;Cancer,Size&quot;</span></span>
+<span id="cb25-18"><a href="interactomics.html#cb25-18" aria-hidden="true" tabindex="-1"></a>            ) </span>
+<span id="cb25-19"><a href="interactomics.html#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="interactomics.html#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="interactomics.html#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(manual_cancer_frequency)</span></code></pre></div>
+<pre><code>## [1] &quot;Lung,0.585&quot;    &quot;Ovarian,0.495&quot; &quot;Breast,0.49&quot;   &quot;Uterine,0.44&quot; 
+## [5] &quot;Skin,0.43&quot;     &quot;Bladder,0.425&quot;</code></pre>
+<ul>
+<li>rename cancer with short label is usefull for graph visualization.</li>
+</ul>
 </div>
 <div id="gene-alteration-frequency-by-cancer-type" class="section level5 hasAnchor" number="6.2.2.3.2">
 <h5><span class="header-section-number">6.2.2.3.2</span> Gene Alteration Frequency by Cancer Type<a href="interactomics.html#gene-alteration-frequency-by-cancer-type" class="anchor-section" aria-label="Anchor link to header"></a></h5>
@@ -485,14 +491,14 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 <p>The next step is to attribute gene alteration frequency to gene-cancer Edges.</p>
 <p>Based on <em>gene_alteration_frequency_Lung</em> object we need to build a list like <code>gene1+%28pp%29+cancer1=gene_alteration_rate</code> and joint it to <code>correlated_genes.EA</code></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="interactomics.html#cb29-1" aria-hidden="true" tabindex="-1"></a>gene_cancer_freq_Lung <span class="ot">&lt;-</span> <span class="fu">paste0</span>(gene_alteration_frequency_Lung<span class="sc">$</span>Gene.Symbol, </span>
-<span id="cb29-2"><a href="interactomics.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;+%28pp%29+&quot;</span>, <span class="st">&quot;Lung_C=&quot;</span>,  </span>
+<span id="cb29-2"><a href="interactomics.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot; (PP) &quot;</span>, <span class="st">&quot;Lung,&quot;</span>,  </span>
 <span id="cb29-3"><a href="interactomics.html#cb29-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;%&quot;</span>,<span class="st">&quot;&quot;</span>, </span>
 <span id="cb29-4"><a href="interactomics.html#cb29-4" aria-hidden="true" tabindex="-1"></a>                                         gene_alteration_frequency_Lung<span class="sc">$</span>Percent.Samples.Altered))<span class="sc">/</span><span class="dv">100</span></span>
 <span id="cb29-5"><a href="interactomics.html#cb29-5" aria-hidden="true" tabindex="-1"></a>                          )</span>
 <span id="cb29-6"><a href="interactomics.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_cancer_freq_Lung)</span></code></pre></div>
-<pre><code>## [1] &quot;CFHR2+%28pp%29+Lung_C=1&quot;       &quot;CRP+%28pp%29+Lung_C=0.98&quot;     
-## [3] &quot;CFHR1+%28pp%29+Lung_C=0.94&quot;    &quot;ADH4+%28pp%29+Lung_C=0.92&quot;    
-## [5] &quot;PRAP1+%28pp%29+Lung_C=0.9&quot;     &quot;LGALS3BP+%28pp%29+Lung_C=0.88&quot;</code></pre>
+<pre><code>## [1] &quot;CFHR2 (PP) Lung,1&quot;       &quot;CRP (PP) Lung,0.98&quot;     
+## [3] &quot;CFHR1 (PP) Lung,0.94&quot;    &quot;ADH4 (PP) Lung,0.92&quot;    
+## [5] &quot;PRAP1 (PP) Lung,0.9&quot;     &quot;LGALS3BP (PP) Lung,0.88&quot;</code></pre>
 <p><strong>Do the same <a href="interactomics.html#gene-alteration-frequency-by-cancer-type">steps</a> for the 5 others Cancer Type: Ovarian Cancer, Invasive Breast, Uterine Endometrioid Carcinoma, Skin Cancer Non-Melanoma, Bladder/Urinary Tract Cancer</strong></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="interactomics.html#cb31-1" aria-hidden="true" tabindex="-1"></a>gene_alteration_frequency_Breast <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cBioPortal_output/gene_alteration_frequency_Breast.tsv&quot;</span>,</span>
 <span id="cb31-2"><a href="interactomics.html#cb31-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
@@ -516,24 +522,34 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 <span id="cb31-20"><a href="interactomics.html#cb31-20" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb31-21"><a href="interactomics.html#cb31-21" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb31-22"><a href="interactomics.html#cb31-22" aria-hidden="true" tabindex="-1"></a> gene_cancer_freq_5_cancers <span class="ot">&lt;-</span> <span class="fu">paste0</span>(gene_alteration_frequency_5_cancers<span class="sc">$</span>Gene.Symbol, </span>
-<span id="cb31-23"><a href="interactomics.html#cb31-23" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;+%28pp%29+&quot;</span>, gene_alteration_frequency_5_cancers<span class="sc">$</span>Cancer, <span class="st">&quot;=&quot;</span>,  </span>
+<span id="cb31-23"><a href="interactomics.html#cb31-23" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot; (PP) &quot;</span>, gene_alteration_frequency_5_cancers<span class="sc">$</span>Cancer, <span class="st">&quot;,&quot;</span>,  </span>
 <span id="cb31-24"><a href="interactomics.html#cb31-24" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&quot;%&quot;</span>,<span class="st">&quot;&quot;</span>, </span>
 <span id="cb31-25"><a href="interactomics.html#cb31-25" aria-hidden="true" tabindex="-1"></a>                                         gene_alteration_frequency_Lung<span class="sc">$</span>Percent.Samples.Altered))<span class="sc">/</span><span class="dv">100</span>  </span>
 <span id="cb31-26"><a href="interactomics.html#cb31-26" aria-hidden="true" tabindex="-1"></a>                            )</span>
 <span id="cb31-27"><a href="interactomics.html#cb31-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-28"><a href="interactomics.html#cb31-28" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(gene_cancer_freq_5_cancers)</span></code></pre></div>
-<pre><code>## [1] &quot;VCP+%28pp%29+Uterine=0.14&quot;   &quot;TPM4+%28pp%29+Uterine=0.13&quot; 
-## [3] &quot;TFRC+%28pp%29+Uterine=0.13&quot;  &quot;RAP1A+%28pp%29+Uterine=0.12&quot;
-## [5] &quot;GC+%28pp%29+Uterine=0.026&quot;   &quot;IGHD+%28pp%29+Uterine=0&quot;</code></pre>
-<p>Cancatenate the <em>gene_cancer_freq_5_cancers</em> with <em>correlated_genes.EA</em> objects of Edge Attributions.</p>
+<pre><code>## [1] &quot;VCP (PP) Uterine,0.14&quot;   &quot;TPM4 (PP) Uterine,0.13&quot; 
+## [3] &quot;TFRC (PP) Uterine,0.13&quot;  &quot;RAP1A (PP) Uterine,0.12&quot;
+## [5] &quot;GC (PP) Uterine,0.026&quot;   &quot;IGHD (PP) Uterine,0&quot;</code></pre>
+<p>Concatenate the <em>gene_cancer_freq_5_cancers</em> with <em>correlated_genes.EA</em> objects of Edge Attributions.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="interactomics.html#cb33-1" aria-hidden="true" tabindex="-1"></a>correlation_cancer.EA <span class="ot">&lt;-</span> <span class="fu">c</span>(correlated_genes.EA, gene_cancer_freq_5_cancers)</span>
 <span id="cb33-2"><a href="interactomics.html#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="interactomics.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(correlation_cancer.EA, <span class="at">file =</span> <span class="st">&quot;data/cytoscape_input/new_version/Correlation+Cancer.EA&quot;</span>,</span>
-<span id="cb33-4"><a href="interactomics.html#cb33-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="st">&quot;Correlation+Cancer (class=java.lang.Double)&quot;</span>)</span>
+<span id="cb33-4"><a href="interactomics.html#cb33-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="st">&quot;Name,Correlation&quot;</span>)</span>
 <span id="cb33-5"><a href="interactomics.html#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(correlation_cancer.EA)</span></code></pre></div>
-<pre><code>## [1] &quot;VCP+%28pp%29+Uterine=0.14&quot;   &quot;TPM4+%28pp%29+Uterine=0.13&quot; 
-## [3] &quot;TFRC+%28pp%29+Uterine=0.13&quot;  &quot;RAP1A+%28pp%29+Uterine=0.12&quot;
-## [5] &quot;GC+%28pp%29+Uterine=0.026&quot;   &quot;IGHD+%28pp%29+Uterine=0&quot;</code></pre>
+<pre><code>## [1] &quot;VCP (PP) Uterine,0.14&quot;   &quot;TPM4 (PP) Uterine,0.13&quot; 
+## [3] &quot;TFRC (PP) Uterine,0.13&quot;  &quot;RAP1A (PP) Uterine,0.12&quot;
+## [5] &quot;GC (PP) Uterine,0.026&quot;   &quot;IGHD (PP) Uterine,0&quot;</code></pre>
+<p>From <em>gene_cancer_freq_5_cancers</em> object we can sa gene_cancer network.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="interactomics.html#cb35-1" aria-hidden="true" tabindex="-1"></a>Cancer_Network <span class="ot">&lt;-</span> <span class="fu">paste0</span>(gene_alteration_frequency_5_cancers<span class="sc">$</span>Gene.Symbol, <span class="st">&quot; PP &quot;</span>,</span>
+<span id="cb35-2"><a href="interactomics.html#cb35-2" aria-hidden="true" tabindex="-1"></a>                  gene_alteration_frequency_5_cancers<span class="sc">$</span>Cancer)</span>
+<span id="cb35-3"><a href="interactomics.html#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="interactomics.html#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(Cancer_Network, <span class="at">file =</span> <span class="st">&quot;data/cytoscape_input/new_version/Cancer_Network.sif&quot;</span>,</span>
+<span id="cb35-5"><a href="interactomics.html#cb35-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="fu">c</span>(<span class="st">&quot;Gene PP Cancer&quot;</span>))</span>
+<span id="cb35-6"><a href="interactomics.html#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="interactomics.html#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Cancer_Network)</span></code></pre></div>
+<pre><code>## [1] &quot;CFHR2 PP Lung&quot;    &quot;CRP PP Lung&quot;      &quot;CFHR1 PP Lung&quot;    &quot;ADH4 PP Lung&quot;    
+## [5] &quot;PRAP1 PP Lung&quot;    &quot;LGALS3BP PP Lung&quot;</code></pre>
 </div>
 </div>
 </div>
@@ -599,6 +615,7 @@ Save the file as <strong>gene_alteration_frequency_Lung.tsv</strong>.</p>
 <ul>
 <li>Import the cancer-protein network from the Cancer_Network.sif file.</li>
 <li>Merge Cancer_Network and Network 3.</li>
+<li>Rename network as Network 4.</li>
 <li>Attribute the Cancer-frequency to node size.</li>
 <li>Optimize the view using the organic Layout and Tool panel.</li>
 </ul>
@@ -644,7 +661,10 @@ Remove duplicated edges.</p>
 <p><img src="img/remove_duplicated_Edges.png" />
 Rename Node Label</p>
 <p><img src="img/rename_node_labels.png" /></p>
-<p>Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union</p>
+<ul>
+<li>Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union</li>
+<li>Rename the unified network as <em>Network 3</em>.</li>
+</ul>
 <div class="figure">
 <img src="img/merge_network1_networ2_setting.png" alt="" />
 <p class="caption">Merging only-modulated-symbol.txt and Correlation_Network.sif</p>
@@ -684,6 +704,65 @@ A new table appears fir Biological Process. You can choose to filter the enrichm
 <img src="img/Pathway_enrichment.png" alt="" />
 <p class="caption">Pathway term enrichment analysis.</p>
 </div>
+<div id="style-setting-from-reactome-fi-visual-style" class="section level6 hasAnchor" number="6.2.3.2.5.1">
+<h6><span class="header-section-number">6.2.3.2.5.1</span> Style setting from Reactome FI visual style<a href="interactomics.html#style-setting-from-reactome-fi-visual-style" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li>Node Label: name or ID</li>
+<li>Node Shape: IsLinker (from Reactome FI visual style)</li>
+<li>Node Color: Module(from Reactome FI visual style)</li>
+<li>Edges Target Arrow: FI Direction (from Reactome FI visual style)</li>
+</ul>
+</div>
+</div>
+<div id="attribute-experimental-data-for-nodes" class="section level5 hasAnchor" number="6.2.3.2.6">
+<h5><span class="header-section-number">6.2.3.2.6</span> Attribute Experimental data for nodes<a href="interactomics.html#attribute-experimental-data-for-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Import Node attributes files (Fold_Change.NA and FDR.NA).</li>
+</ul>
+<p><img src="img/import_fold_change_FDR.png" /></p>
+<ul>
+<li>Attribute Node line width and Node line color as “Fold Change” and “FDR”</li>
+<li>Select the value of the Node Border color to <em>Fold Change</em></li>
+<li>Select the value of the Node line width to <em>FDR</em></li>
+<li>Set the mapping Type to <em>Continuous Mapping</em></li>
+</ul>
+<p><img src="img/setting_border_color_width.png" />
+Attribute Node line width and Node line color as <em>Fold Change</em> and <em>FDR</em>, respectively. Negative and Positive fold changes are indicated by blue and red, respectively.</p>
+<p>The intensity of the color depends on the fold change value. The node width line is limited by the FDR interval [0-0.05]. The node color module has been omitted to make it easier to
+view the node line.</p>
+</div>
+<div id="attribute-experimental-data-for-edges" class="section level5 hasAnchor" number="6.2.3.2.7">
+<h5><span class="header-section-number">6.2.3.2.7</span> Attribute Experimental data for edges<a href="interactomics.html#attribute-experimental-data-for-edges" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Import <em>Correlation+Cancer.EA</em> file</li>
+</ul>
+<p><img src="img/import_correlation+cancerEA.png" />
+* Attribute edge color and width</p>
+<p><img src="img/setting_edge_color_width.png" />
+The correlation coefficients have been multiplied by 2.5 to distinguish in the graph between the correlation
+values and the cancer values. The edge line width was set to r&lt;-2.07 and r&gt;2.18, corresponding to r&lt;-0.807 and r&gt;0.818, respectively. Negative and the Positive correlations are indicated by blue and red, respectively.</p>
+</div>
+<div id="cancer-protein-network-construction-1" class="section level5 hasAnchor" number="6.2.3.2.8">
+<h5><span class="header-section-number">6.2.3.2.8</span> Cancer-protein Network Construction<a href="interactomics.html#cancer-protein-network-construction-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Import Cancer network from the <em>Cancer_Network.sif</em> file</li>
+</ul>
+<p><img src="img/Cancer_Network.png" /></p>
+<ul>
+<li>Merge with Union option <em>Cancer_Network.sif</em> with <em>Network 3</em>. Check during this step in <em>Advanced options</em> that <em>Matching column</em> is <strong>name</strong>, if not select columns with common labels of nodes.</li>
+</ul>
+<p><img src="img/merge_cancer_networ_network3.png" />
+* Rename network as <em>Network 4</em>
+* Go to style tab and use <em>FI Network</em> network style (from ReactomeFI)
+* Optimize the view using organic Layout and manual organization.
+* Reset/optimize the edge line width and edge color as following in order to distinguish the cancer edges.</p>
+<p><img src="img/reset_edge_width_with_cancer_network.png" />
+The node color was reset using the cluster module color. The cancer nodes are in the default color (green). The edge color mapping has been optimized so that cancer node interactions stand out in green. The edge width line has been optimized so as to highlight the genes most frequently regulated in cancers.</p>
+<ul>
+<li>Import <em>Cancer_frequency.NA</em> file and Attribute frequency to node size.</li>
+</ul>
+<p><img src="img/attribute_node_size_to_cancer.png" />
+The most probable cancers are distinguished by node size. In this case clinical Lung carcinoma data display the most gene expression overlap with our data.</p>
 </div>
 </div>
 </div>
@@ -695,27 +774,27 @@ A new table appears fir Biological Process. You can choose to filter the enrichm
 </div>
 <div id="shiny-framework" class="section level3 hasAnchor" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Shiny Framework<a href="interactomics.html#shiny-framework" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb35-1"><a href="interactomics.html#cb35-1"></a><span class="fu">library</span>(visNetwork)</span>
-<span id="cb35-2"><a href="interactomics.html#cb35-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
-<span id="cb35-3"><a href="interactomics.html#cb35-3"></a>                    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Node&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
-<span id="cb35-4"><a href="interactomics.html#cb35-4"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="fl">2.6</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">2</span>),</span>
-<span id="cb35-5"><a href="interactomics.html#cb35-5"></a>                    <span class="at">shape =</span><span class="st">&quot;circle&quot;</span>,</span>
-<span id="cb35-6"><a href="interactomics.html#cb35-6"></a>                    <span class="at">group=</span> <span class="fu">c</span>(<span class="st">&quot;Gr1&quot;</span>,<span class="st">&quot;Gr3&quot;</span>),</span>
-<span id="cb35-7"><a href="interactomics.html#cb35-7"></a>                    <span class="at">color=</span> <span class="fu">c</span>(<span class="st">&quot;#DF0101&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb35-8"><a href="interactomics.html#cb35-8"></a>)</span>
-<span id="cb35-9"><a href="interactomics.html#cb35-9"></a></span>
-<span id="cb35-10"><a href="interactomics.html#cb35-10"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>),</span>
-<span id="cb35-11"><a href="interactomics.html#cb35-11"></a>                    <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">9</span>) )</span>
-<span id="cb35-12"><a href="interactomics.html#cb35-12"></a></span>
-<span id="cb35-13"><a href="interactomics.html#cb35-13"></a></span>
-<span id="cb35-14"><a href="interactomics.html#cb35-14"></a></span>
-<span id="cb35-15"><a href="interactomics.html#cb35-15"></a>graphe <span class="ot">&lt;-</span> visNetwork<span class="sc">::</span><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
-<span id="cb35-16"><a href="interactomics.html#cb35-16"></a></span>
-<span id="cb35-17"><a href="interactomics.html#cb35-17"></a>visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">graph=</span> graphe, <span class="at">manipulation =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb35-18"><a href="interactomics.html#cb35-18"></a>                       <span class="at">selectedBy =</span> <span class="st">&quot;group&quot;</span>,</span>
-<span id="cb35-19"><a href="interactomics.html#cb35-19"></a>                       <span class="at">highlightNearest =</span> <span class="cn">TRUE</span> )</span></code></pre></div>
-<div id="htmlwidget-a70166b69e29b9ebd87f" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a70166b69e29b9ebd87f">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><span id="cb37-1"><a href="interactomics.html#cb37-1"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb37-2"><a href="interactomics.html#cb37-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb37-3"><a href="interactomics.html#cb37-3"></a>                    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Node&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb37-4"><a href="interactomics.html#cb37-4"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="fl">2.6</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">2</span>),</span>
+<span id="cb37-5"><a href="interactomics.html#cb37-5"></a>                    <span class="at">shape =</span><span class="st">&quot;circle&quot;</span>,</span>
+<span id="cb37-6"><a href="interactomics.html#cb37-6"></a>                    <span class="at">group=</span> <span class="fu">c</span>(<span class="st">&quot;Gr1&quot;</span>,<span class="st">&quot;Gr3&quot;</span>),</span>
+<span id="cb37-7"><a href="interactomics.html#cb37-7"></a>                    <span class="at">color=</span> <span class="fu">c</span>(<span class="st">&quot;#DF0101&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb37-8"><a href="interactomics.html#cb37-8"></a>)</span>
+<span id="cb37-9"><a href="interactomics.html#cb37-9"></a></span>
+<span id="cb37-10"><a href="interactomics.html#cb37-10"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>),</span>
+<span id="cb37-11"><a href="interactomics.html#cb37-11"></a>                    <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">9</span>) )</span>
+<span id="cb37-12"><a href="interactomics.html#cb37-12"></a></span>
+<span id="cb37-13"><a href="interactomics.html#cb37-13"></a></span>
+<span id="cb37-14"><a href="interactomics.html#cb37-14"></a></span>
+<span id="cb37-15"><a href="interactomics.html#cb37-15"></a>graphe <span class="ot">&lt;-</span> visNetwork<span class="sc">::</span><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
+<span id="cb37-16"><a href="interactomics.html#cb37-16"></a></span>
+<span id="cb37-17"><a href="interactomics.html#cb37-17"></a>visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">graph=</span> graphe, <span class="at">manipulation =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb37-18"><a href="interactomics.html#cb37-18"></a>                       <span class="at">selectedBy =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb37-19"><a href="interactomics.html#cb37-19"></a>                       <span class="at">highlightNearest =</span> <span class="cn">TRUE</span> )</span></code></pre></div>
+<div id="htmlwidget-831800cdd56b4f68e0ea" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-831800cdd56b4f68e0ea">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10],"label":["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8","Node 9","Node 10"],"value":[10,5,3,7,2,3,2.6,2,9,2],"shape":["circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"group":["Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3","Gr1","Gr3"],"color":["#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue","#DF0101","blue"]},"edges":{"from":[1,5,3,7,2,9,10,8,3,3,6],"to":[5,3,5,1,5,1,2,3,7,4,9]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":true}},"groups":["Gr1","Gr3"],"width":"100%","height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by group","values":["Gr1","Gr3"]},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","opts_manipulation":{"datacss":"table.legend_table {\n  font-size: 11px;\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n}\ntable.legend_table td {\n  border-width:1px;\n  border-color:#d3d3d3;\n  border-style:solid;\n  padding: 2px;\n}\ndiv.table_content {\n  width:80px;\n  text-align:center;\n}\ndiv.table_description {\n  width:100px;\n}\n\n.operation {\n  font-size:20px;\n}\n\n.network-popUp {\n  display:none;\n  z-index:299;\n  width:250px;\n  /*height:150px;*/\n  background-color: #f9f9f9;\n  border-style:solid;\n  border-width:1px;\n  border-color: #0d0d0d;\n  padding:10px;\n  text-align: center;\n  position:fixed;\n  top:50%;  \n  left:50%;  \n  margin:-100px 0 0 -100px;  \n\n}","addNodeCols":["id","label"],"editNodeCols":["id","label"],"tab_add_node":"<span id=\"addnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"addnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"addnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"addnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"addnode-cancelButton\"><\/button>","tab_edit_node":"<span id=\"editnode-operation\" class = \"operation\">node<\/span> <br><table style=\"margin:auto;\"><tr><td>id<\/td><td><input id=\"editnode-id\"  type= \"text\" value=\"new value\"><\/td><\/tr><tr><td>label<\/td><td><input id=\"editnode-label\"  type= \"text\" value=\"new value\"><\/td><\/tr><\/table><input type=\"button\" value=\"save\" id=\"editnode-saveButton\"><\/button><input type=\"button\" value=\"cancel\" id=\"editnode-cancelButton\"><\/button>"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
 <!-- # Blocks -->
 <!-- ## Equations -->
 <!-- Here is an equation. -->

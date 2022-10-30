@@ -137,14 +137,14 @@ head(correlation_network)
 ```
 
 
-The format of edge attributes that will be imported by Cytoscape must has this format `gene1+%28pp%29+gene2=correlation value`.
+The format of edge attributes that will be imported by Cytoscape must has this format `gene1[space](PP)[space]gene2[space]correlation_value`.
 
 In our case, we need to concatenate the three columns and add `+%28pp%29+` between genes and `=` before value.
 
 ```{r}
 # paste columns
-correlated_genes.EA <- paste0(cor.proteinEXP.std.filter$gene1, "+%28pp%29+", 
-                    cor.proteinEXP.std.filter$gene2, "=",
+correlated_genes.EA <- paste0(cor.proteinEXP.std.filter$gene1, " (PP) ", 
+                    cor.proteinEXP.std.filter$gene2, ",",
                     cor.proteinEXP.std.filter$value)
 
 length(correlated_genes.EA)
@@ -229,18 +229,30 @@ head(cancer_type_summary_freq,n = 6)
 
 ```{r}
 
+## use comma to separate column. cancer type label column has space. During importing this file use comma as separated column
 cancer_frequency <- paste0(cancer_type_summary_freq$Cancer.Type, 
-                           " = ", cancer_type_summary_freq$Freq_mean)
-  
+                           ",", cancer_type_summary_freq$Freq_mean)
+
+## rename with short label
+## we will to this manually since we have 6-10 labels
+#dput(head(cancer_type_summary_freq$Cancer.Type, 10))
+
+manual_cancer_type_label <- c("Lung", "Ovarian", "Breast","Uterine", "Skin", "Bladder", "Melanoma", "Endometrial", "Esophagogastric")
+
+manual_cancer_frequency <- paste0(manual_cancer_type_label, 
+                           ",", cancer_type_summary_freq$Freq_mean[1:9])
+
 ## save only the first 6 cancers
-  
-write.table(head(cancer_frequency, 10),
+write.table(manual_cancer_frequency,
             file = "data/cytoscape_input/new_version/Cancer_frequency.NA",
-            row.names = FALSE, quote = FALSE, col.names = "Cancer frequency (class=java.lang.Double)"
+            row.names = FALSE, quote = FALSE, col.names = "Cancer,Size"
             ) 
 
-head(cancer_frequency)
+
+head(manual_cancer_frequency)
 ```
+
+* rename cancer with short label is usefull for graph visualization.
 
 ##### Gene Alteration Frequency by Cancer Type {#gene-alteration-frequency-by-cancer-type}
 
@@ -281,7 +293,7 @@ Based on  *gene_alteration_frequency_Lung* object we need to build a list like `
 
 ```{r}
 gene_cancer_freq_Lung <- paste0(gene_alteration_frequency_Lung$Gene.Symbol, 
-                          "+%28pp%29+", "Lung_C=",  
+                          " (PP) ", "Lung,",  
                           as.numeric(sub("%","", 
                                          gene_alteration_frequency_Lung$Percent.Samples.Altered))/100
                           )
@@ -314,7 +326,7 @@ gene_alteration_frequency_Uterine <- read.table("data/cBioPortal_output/gene_alt
  
  
  gene_cancer_freq_5_cancers <- paste0(gene_alteration_frequency_5_cancers$Gene.Symbol, 
-                          "+%28pp%29+", gene_alteration_frequency_5_cancers$Cancer, "=",  
+                          " (PP) ", gene_alteration_frequency_5_cancers$Cancer, ",",  
                           as.numeric(sub("%","", 
                                          gene_alteration_frequency_Lung$Percent.Samples.Altered))/100  
                             )
@@ -322,16 +334,27 @@ gene_alteration_frequency_Uterine <- read.table("data/cBioPortal_output/gene_alt
 tail(gene_cancer_freq_5_cancers)
 ```
 
-Cancatenate the *gene_cancer_freq_5_cancers* with *correlated_genes.EA* objects of Edge Attributions.
+Concatenate the *gene_cancer_freq_5_cancers* with *correlated_genes.EA* objects of Edge Attributions.
 
 ```{r}
 correlation_cancer.EA <- c(correlated_genes.EA, gene_cancer_freq_5_cancers)
 
 write.table(correlation_cancer.EA, file = "data/cytoscape_input/new_version/Correlation+Cancer.EA",
-            row.names = FALSE, quote = FALSE, col.names="Correlation+Cancer (class=java.lang.Double)")
+            row.names = FALSE, quote = FALSE, col.names="Name,Correlation")
 tail(correlation_cancer.EA)
 ```
 
+From *gene_cancer_freq_5_cancers* object we can sa gene_cancer network. 
+
+```{r}
+Cancer_Network <- paste0(gene_alteration_frequency_5_cancers$Gene.Symbol, " PP ",
+                  gene_alteration_frequency_5_cancers$Cancer)
+
+write.table(Cancer_Network, file = "data/cytoscape_input/new_version/Cancer_Network.sif",
+            row.names = FALSE, quote = FALSE, col.names=c("Gene PP Cancer"))
+
+head(Cancer_Network)
+```
 
 ### Cytoscape Steps
 
@@ -382,6 +405,7 @@ tail(correlation_cancer.EA)
 
 * Import the cancer-protein network from the Cancer_Network.sif file. 
 * Merge Cancer_Network and Network 3.
+* Rename network as Network 4.
 * Attribute the Cancer-frequency to node size.
 * Optimize the view using the organic Layout and Tool panel.
 
@@ -428,7 +452,8 @@ Rename Node Label
 
 ![](img/rename_node_labels.png)
 
-Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union
+* Merge the two networks (only-modulated-symbol.txt and Correlation_Network.sif) using Tools/Merge/Union
+* Rename the unified network as *Network 3*.
 
 ![Merging only-modulated-symbol.txt and Correlation_Network.sif](img/merge_network1_networ2_setting.png)
 
@@ -467,6 +492,66 @@ A new table appears fir Biological Process. You can choose to filter the enrichm
 ##### Analyse of the module functions : Pathway enrichment
 
 ![Pathway term enrichment analysis.](img/Pathway_enrichment.png)
+
+###### Style setting from Reactome FI visual style
+
+* Node Label: name or ID
+* Node Shape: IsLinker (from Reactome FI visual style)
+* Node Color: Module(from Reactome FI visual style)
+* Edges Target Arrow: FI Direction (from Reactome FI visual style)
+
+
+##### Attribute Experimental data for nodes
+
+* Import Node attributes files (Fold_Change.NA and FDR.NA).
+
+![](img/import_fold_change_FDR.png)
+
+* Attribute Node line width and Node line color as “Fold Change” and “FDR”
+* Select the value of the Node Border color to *Fold Change*
+* Select the value of the Node line width to *FDR*
+* Set the mapping Type to *Continuous Mapping*
+
+![](img/setting_border_color_width.png)
+Attribute Node line width and Node line color as *Fold Change* and *FDR*, respectively. Negative and Positive fold changes are indicated by blue and red, respectively. 
+
+The intensity of the color depends on the fold change value. The node width line is limited by the FDR interval [0-0.05]. The node color module has been omitted to make it easier to
+view the node line.
+
+
+##### Attribute Experimental data for edges
+
+* Import *Correlation+Cancer.EA* file
+
+![](img/import_correlation+cancerEA.png)
+* Attribute edge color and width
+
+![](img/setting_edge_color_width.png)
+The correlation coefficients have been multiplied by 2.5 to distinguish in the graph between the correlation
+values and the cancer values. The edge line width was set to r<-2.07 and r>2.18, corresponding to r<-0.807 and r>0.818, respectively. Negative and the Positive correlations are indicated by blue and red, respectively.
+
+##### Cancer-protein Network Construction
+
+* Import Cancer network from the *Cancer_Network.sif* file
+
+![](img/Cancer_Network.png)
+
+* Merge with Union option *Cancer_Network.sif* with *Network 3*. Check during this step in *Advanced options* that *Matching column* is **name**, if not select columns with common labels of nodes.
+
+![](img/merge_cancer_networ_network3.png)
+* Rename network as *Network 4*
+* Go to style tab and use *FI Network* network style (from ReactomeFI)
+* Optimize the view using organic Layout and manual organization.
+* Reset/optimize the edge line width and edge color as following in order to distinguish the cancer edges.
+
+![](img/reset_edge_width_with_cancer_network.png)
+The node color was reset using the cluster module color. The cancer nodes are in the default color (green). The edge color mapping has been optimized so that cancer node interactions stand out in green. The edge width line has been optimized so as to highlight the genes most frequently regulated in cancers.
+
+* Import  *Cancer_frequency.NA* file and Attribute frequency  to node size.
+
+![](img/attribute_node_size_to_cancer.png)
+The most probable cancers are distinguished by node size. In this case clinical Lung carcinoma data display the most gene expression overlap with our data.
+
 
 ## Terminal Analysis of network
 

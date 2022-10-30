@@ -27,6 +27,10 @@ attribute-reactome-function-interaction-1
 analyse-network-functions-reactome-fi
 cluster-function-interactions-network-reactome-fi
 analyse-of-the-module-functions-pathway-enrichment
+style-setting-from-reactome-fi-visual-style
+attribute-experimental-data-for-nodes
+attribute-experimental-data-for-edges
+cancer-protein-network-construction-1
 terminal-analysis-of-network
 rstudio-and-packages
 shiny-framework
