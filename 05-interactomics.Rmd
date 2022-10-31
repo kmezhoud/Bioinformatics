@@ -552,6 +552,56 @@ The node color was reset using the cluster module color. The cancer nodes are in
 ![](img/attribute_node_size_to_cancer.png)
 The most probable cancers are distinguished by node size. In this case clinical Lung carcinoma data display the most gene expression overlap with our data.
 
+##### Biological Process enrichment – ClueGO
+
+###### ClueGO Setting
+
+* All results were created with ClueGO v2.5.9
+* Organism analyzed: Homo Sapiens [9606]
+* Identifier types used: [SymbolID]
+* Evidence codes used: [All]
+* Genes in GO_MolecularFunction-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00 : 18417
+* Genes in GO_BiologicalProcess-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00 : 18085
+* All unique genes in selected ontologies: 19243 (reference set for hypergeometric test)
+* Genes from Cluster#1: unique uploaded ids 27 -> corresponding genes 27, with 0 (0.0%) missing  -> All genes were recognized by ClueGO.
+* Genes with functional annotations in all selected Ontologies from Cluster#1: 27 (100.0%)
+* Genes from all Clusters associated to 18 representative Terms and Pathways (after applying general selection criteria): 13 (48.15%)
+* Genes from all Clusters associated to 7 representative Terms and Pathways (after fusion selection criteria): 10 (37.04%)
+* Hierarchical grouping:
+    + Start Hierarchical grouping:
+    + Final Hierarchical groups = 1
+* Terms not grouped  = 4
+* GO All Terms Specific for Cluster #1: 7
+
+* Ontology used:
+    + GO_BiologicalProcess-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00
+    + GO_MolecularFunction-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00
+
+* Evidence codes used: All
+* Identifiers used: SymbolID
+* List of missing Genes: Cluster #1
+* Statistical Test Used = Enrichment/Depletion (Two-sided hypergeometric test)
+    + Correction Method Used = Bonferroni step down
+    + Min GO Level = 3
+    + Max GO Level = 8
+* Cluster #1
+    + Sample File Name = Network selection: Network 4 default network
+    + Number of Genes = 2
+    + Min Percentage = 4.0
+
+* GO Fusion = true
+* GO Group = true
+* Kappa Score Threshold = 0.53
+* Over View Term = SmallestPValue
+* Group By Parents = true
+* Common Parents Number = 3
+* Different Parents Number = 4
+
+![](img/ClueGO_result.png)
+* Merge ClueGO result with Network 4
+* Optimize view manually and with Layouts, edit Node label if needed.
+
+![](img/merge_ClueGO_Network4.png)
 
 ## Terminal Analysis of network
 

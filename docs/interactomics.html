@@ -23,7 +23,7 @@
 <meta name="author" content="Karim Mezhoud" />
 
 
-<meta name="date" content="2022-10-30" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -763,6 +763,63 @@ The node color was reset using the cluster module color. The cancer nodes are in
 </ul>
 <p><img src="img/attribute_node_size_to_cancer.png" />
 The most probable cancers are distinguished by node size. In this case clinical Lung carcinoma data display the most gene expression overlap with our data.</p>
+</div>
+<div id="biological-process-enrichment-cluego" class="section level5 hasAnchor" number="6.2.3.2.9">
+<h5><span class="header-section-number">6.2.3.2.9</span> Biological Process enrichment – ClueGO<a href="interactomics.html#biological-process-enrichment-cluego" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="cluego-setting" class="section level6 hasAnchor" number="6.2.3.2.9.1">
+<h6><span class="header-section-number">6.2.3.2.9.1</span> ClueGO Setting<a href="interactomics.html#cluego-setting" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><p>All results were created with ClueGO v2.5.9</p></li>
+<li><p>Organism analyzed: Homo Sapiens [9606]</p></li>
+<li><p>Identifier types used: [SymbolID]</p></li>
+<li><p>Evidence codes used: [All]</p></li>
+<li><p>Genes in GO_MolecularFunction-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00 : 18417</p></li>
+<li><p>Genes in GO_BiologicalProcess-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00 : 18085</p></li>
+<li><p>All unique genes in selected ontologies: 19243 (reference set for hypergeometric test)</p></li>
+<li><p>Genes from Cluster#1: unique uploaded ids 27 -&gt; corresponding genes 27, with 0 (0.0%) missing -&gt; All genes were recognized by ClueGO.</p></li>
+<li><p>Genes with functional annotations in all selected Ontologies from Cluster#1: 27 (100.0%)</p></li>
+<li><p>Genes from all Clusters associated to 18 representative Terms and Pathways (after applying general selection criteria): 13 (48.15%)</p></li>
+<li><p>Genes from all Clusters associated to 7 representative Terms and Pathways (after fusion selection criteria): 10 (37.04%)</p></li>
+<li><p>Hierarchical grouping:</p>
+<ul>
+<li>Start Hierarchical grouping:</li>
+<li>Final Hierarchical groups = 1</li>
+</ul></li>
+<li><p>Terms not grouped = 4</p></li>
+<li><p>GO All Terms Specific for Cluster #1: 7</p></li>
+<li><p>Ontology used:</p>
+<ul>
+<li>GO_BiologicalProcess-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00</li>
+<li>GO_MolecularFunction-EBI-UniProt-GOA-ACAP-ARAP_25.05.2022_00h00</li>
+</ul></li>
+<li><p>Evidence codes used: All</p></li>
+<li><p>Identifiers used: SymbolID</p></li>
+<li><p>List of missing Genes: Cluster #1</p></li>
+<li><p>Statistical Test Used = Enrichment/Depletion (Two-sided hypergeometric test)</p>
+<ul>
+<li>Correction Method Used = Bonferroni step down</li>
+<li>Min GO Level = 3</li>
+<li>Max GO Level = 8</li>
+</ul></li>
+<li><p>Cluster #1</p>
+<ul>
+<li>Sample File Name = Network selection: Network 4 default network</li>
+<li>Number of Genes = 2</li>
+<li>Min Percentage = 4.0</li>
+</ul></li>
+<li><p>GO Fusion = true</p></li>
+<li><p>GO Group = true</p></li>
+<li><p>Kappa Score Threshold = 0.53</p></li>
+<li><p>Over View Term = SmallestPValue</p></li>
+<li><p>Group By Parents = true</p></li>
+<li><p>Common Parents Number = 3</p></li>
+<li><p>Different Parents Number = 4</p></li>
+</ul>
+<p><img src="img/ClueGO_result.png" />
+* Merge ClueGO result with Network 4
+* Optimize view manually and with Layouts, edit Node label if needed.</p>
+<p><img src="img/merge_ClueGO_Network4.png" /></p>
+</div>
 </div>
 </div>
 </div>

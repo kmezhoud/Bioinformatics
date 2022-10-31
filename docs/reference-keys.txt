@@ -31,6 +31,8 @@ style-setting-from-reactome-fi-visual-style
 attribute-experimental-data-for-nodes
 attribute-experimental-data-for-edges
 cancer-protein-network-construction-1
+biological-process-enrichment-cluego
+cluego-setting
 terminal-analysis-of-network
 rstudio-and-packages
 shiny-framework
