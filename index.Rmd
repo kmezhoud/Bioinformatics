@@ -1,5 +1,5 @@
 --- 
-title: "Bioinformatic Tutorial"
+title: "Bioinformatics Tutorial"
 author: "Karim Mezhoud"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
